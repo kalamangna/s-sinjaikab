@@ -28,11 +28,6 @@ Layanan pemendek tautan web resmi Pemerintah Kabupaten Sinjai berbasis domain s.
    npm install
    ```
 
-## Akun Awal Bawaan
-
-- **Administrator Utama (Lokal)**: Username `kalamangna` (Kata Sandi: `Syazani`)
-- **Operator ASN / OPD**: Masuk langsung menggunakan NIP dan Kata Sandi akun Gateway ENIKDA Sinjai tanpa pembuatan akun manual.
-
 ## Perintah Operasional Utama
 
 - Menjalankan server pengembangan:

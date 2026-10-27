@@ -4,6 +4,9 @@ Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan for
 
 ## [1.0.0] - 2026-10-27
 
+### Keamanan
+- Penghapusan informasi kredensial akun bawaan dari berkas README.md guna menjaga kerahasiaan akses sistem.
+
 ### Ditambahkan
 - Pembaruan antarmuka terinspirasi Bitly dan s.id berupa Kotak Pemendek Cepat (Quick Shorten Bar) dan daftar tautan berpola Hybrid Link Card.
 - Interaksi salin tautan satu ketukan dengan umpan balik status visual instan tanpa dialog pop-up peramban.
