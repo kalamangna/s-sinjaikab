@@ -30,9 +30,8 @@ Layanan pemendek tautan web resmi Pemerintah Kabupaten Sinjai berbasis domain s.
 
 ## Akun Awal Bawaan
 
-- **Administrator**: `admin@sinjaikab.go.id` (Kata Sandi: `sinjai2026!`)
-- **Operator Dinas Pendidikan**: `disdik@sinjaikab.go.id` (Kata Sandi: `disdik2026!`)
-- **Operator Dinas Kesehatan**: `dinkes@sinjaikab.go.id` (Kata Sandi: `dinkes2026!`)
+- **Administrator Utama (Lokal)**: Username `kalamangna` (Kata Sandi: `Syazani`)
+- **Operator ASN / OPD**: Masuk langsung menggunakan NIP dan Kata Sandi akun Gateway ENIKDA Sinjai tanpa pembuatan akun manual.
 
 ## Perintah Operasional Utama
 

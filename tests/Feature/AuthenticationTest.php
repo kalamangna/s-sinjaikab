@@ -18,6 +18,28 @@ class AuthenticationTest extends TestCase
         $response->assertSee('Masuk Layanan Tautan Sinjaikab');
     }
 
+    public function test_kalamangna_local_admin_can_authenticate(): void
+    {
+        User::create([
+            'nip' => 'kalamangna',
+            'name' => 'kalamangna',
+            'email' => 'kalamangna@sinjaikab.go.id',
+            'password' => bcrypt('Syazani'),
+            'role' => 'admin',
+            'department' => 'Dinas Komunikasi Informatika dan Persandian',
+            'is_active' => true,
+        ]);
+
+        $response = $this->post('/login', [
+            'identifier' => 'kalamangna',
+            'password' => 'Syazani',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect('/dashboard');
+        $this->assertTrue(auth()->user()->isAdmin());
+    }
+
     public function test_users_can_authenticate_via_local_email(): void
     {
         $user = User::factory()->create([

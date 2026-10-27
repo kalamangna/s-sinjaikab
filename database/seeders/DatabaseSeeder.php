@@ -17,40 +17,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@sinjaikab.go.id'],
+        // 1 akun lokal administrator utama: kalamangna
+        $admin = User::updateOrCreate(
+            ['nip' => 'kalamangna'],
             [
-                'name' => 'Administrator Diskominfo',
-                'password' => Hash::make('sinjai2026!'),
+                'name' => 'kalamangna',
+                'email' => 'kalamangna@sinjaikab.go.id',
+                'password' => Hash::make('Syazani'),
                 'role' => 'admin',
                 'department' => 'Dinas Komunikasi Informatika dan Persandian',
                 'is_active' => true,
             ]
         );
 
-        $disdik = User::firstOrCreate(
-            ['email' => 'disdik@sinjaikab.go.id'],
-            [
-                'name' => 'Operator Disdik',
-                'password' => Hash::make('disdik2026!'),
-                'role' => 'opd',
-                'department' => 'Dinas Pendidikan',
-                'is_active' => true,
-            ]
-        );
+        // Hapus akun contoh dummy lama bila ada
+        User::whereIn('email', [
+            'admin@sinjaikab.go.id',
+            'disdik@sinjaikab.go.id',
+            'dinkes@sinjaikab.go.id',
+        ])->delete();
 
-        $dinkes = User::firstOrCreate(
-            ['email' => 'dinkes@sinjaikab.go.id'],
-            [
-                'name' => 'Operator Dinkes',
-                'password' => Hash::make('dinkes2026!'),
-                'role' => 'opd',
-                'department' => 'Dinas Kesehatan',
-                'is_active' => true,
-            ]
-        );
-
-        ShortUrl::firstOrCreate(
+        // Tautan awal bawaan
+        ShortUrl::updateOrCreate(
             ['short_code' => 'portal'],
             [
                 'user_id' => $admin->id,
@@ -61,7 +49,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        ShortUrl::firstOrCreate(
+        ShortUrl::updateOrCreate(
             ['short_code' => 'csirt'],
             [
                 'user_id' => $admin->id,
