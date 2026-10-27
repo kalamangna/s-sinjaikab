@@ -5,6 +5,7 @@ Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan for
 ## [1.0.0] - 2026-10-27
 
 ### Ditambahkan
+- Penyeragaman peran menjadi user langsung untuk seluruh ASN yang masuk via ENIKDA Gateway, serta penghapusan modul pengelolaan akun manual.
 - Penyesuaian akun bawaan menjadi 1 akun lokal administrator utama: `kalamangna` (kata sandi: `Syazani`), serta pembersihan seluruh akun percontohan lokal.
 - Integrasi autentikasi Gateway ENIKDA / SIMPEG Sinjai untuk login ASN menggunakan NIP dan kata sandi dengan sinkronisasi otomatis nama dan OPD.
 - Migrasi penambahan kolom `nip` pada tabel `users`.

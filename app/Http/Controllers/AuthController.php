@@ -70,7 +70,7 @@ class AuthController extends Controller
                         'name' => $enikdaUser['name'],
                         'email' => $enikdaUser['email'],
                         'password' => Hash::make($password),
-                        'role' => 'opd',
+                        'role' => 'user',
                         'department' => $enikdaUser['department'],
                         'is_active' => true,
                     ]);

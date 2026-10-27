@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
             <p class="text-xs font-medium text-slate-500">Total Tautan Aktif</p>
             <p class="mt-2 text-2xl font-bold text-slate-900">{{ number_format($totalUrls, 0, ',', '.') }}</p>
@@ -29,14 +29,6 @@
             <p class="mt-2 text-2xl font-bold text-slate-900">{{ number_format($totalClicks, 0, ',', '.') }}</p>
             <p class="mt-1 text-xs text-slate-400">Akumulasi pengalihan tautan berhasil</p>
         </div>
-
-        @if(auth()->user()->isAdmin() && $totalOpd !== null)
-            <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
-                <p class="text-xs font-medium text-slate-500">Organisasi Perangkat Daerah</p>
-                <p class="mt-2 text-2xl font-bold text-slate-900">{{ number_format($totalOpd, 0, ',', '.') }}</p>
-                <p class="mt-1 text-xs text-slate-400">OPD terdaftar dalam sistem</p>
-            </div>
-        @endif
     </div>
 
     <div class="rounded-xl border border-slate-200 bg-white shadow-xs overflow-hidden">

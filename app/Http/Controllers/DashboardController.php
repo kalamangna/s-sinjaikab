@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ShortUrl;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -19,7 +18,6 @@ class DashboardController extends Controller
         if ($user->isAdmin()) {
             $totalUrls = ShortUrl::count();
             $totalClicks = (int) ShortUrl::sum('clicks_count');
-            $totalOpd = User::where('role', 'opd')->count();
 
             $topUrls = ShortUrl::with('user')
                 ->orderByDesc('clicks_count')
@@ -33,7 +31,6 @@ class DashboardController extends Controller
         } else {
             $totalUrls = $user->shortUrls()->count();
             $totalClicks = (int) $user->shortUrls()->sum('clicks_count');
-            $totalOpd = null;
 
             $topUrls = $user->shortUrls()
                 ->orderByDesc('clicks_count')
@@ -46,6 +43,6 @@ class DashboardController extends Controller
                 ->get();
         }
 
-        return view('dashboard.index', compact('totalUrls', 'totalClicks', 'totalOpd', 'topUrls', 'recentUrls'));
+        return view('dashboard.index', compact('totalUrls', 'totalClicks', 'topUrls', 'recentUrls'));
     }
 }

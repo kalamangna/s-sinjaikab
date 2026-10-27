@@ -27,11 +27,6 @@
                     <a href="{{ route('urls.index') }}" class="rounded-md px-3 py-2 text-sm font-medium transition {{ request()->routeIs('urls.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         Kelola Tautan
                     </a>
-                    @if(auth()->user()->isAdmin())
-                        <a href="{{ route('users.index') }}" class="rounded-md px-3 py-2 text-sm font-medium transition {{ request()->routeIs('users.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
-                            Kelola Akun OPD
-                        </a>
-                    @endif
                 </nav>
             </div>
 
@@ -57,11 +52,6 @@
             <a href="{{ route('urls.index') }}" class="inline-flex h-10 items-center whitespace-nowrap rounded-md px-3 text-xs font-medium {{ request()->routeIs('urls.*') ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 border border-slate-200' }}">
                 Kelola Tautan
             </a>
-            @if(auth()->user()->isAdmin())
-                <a href="{{ route('users.index') }}" class="inline-flex h-10 items-center whitespace-nowrap rounded-md px-3 text-xs font-medium {{ request()->routeIs('users.*') ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 border border-slate-200' }}">
-                    Kelola Akun OPD
-                </a>
-            @endif
         </nav>
     </header>
 

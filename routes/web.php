@@ -4,7 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\ShortUrlController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Depan Publik
@@ -28,14 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/urls/{url}', [ShortUrlController::class, 'update'])->name('urls.update');
     Route::delete('/urls/{url}', [ShortUrlController::class, 'destroy'])->name('urls.destroy');
     Route::get('/urls/{url}/qr', [ShortUrlController::class, 'qrCode'])->name('urls.qr');
-
-    // Manajemen Akun OPD (Khusus Administrator)
-    Route::middleware('admin')->group(function () {
-        Route::get('/users', [UserController::class, 'index'])->name('users.index');
-        Route::post('/users', [UserController::class, 'store'])->name('users.store');
-        Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
-        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
-    });
 });
 
 // Pengalihan Tautan Pendek (Wildcard di posisi terakhir)

@@ -85,7 +85,7 @@ class AuthenticationTest extends TestCase
             'nip' => $nip,
             'name' => 'Ahmad Pegawai Sinjai',
             'department' => 'Dinas Pendidikan',
-            'role' => 'opd',
+            'role' => 'user',
         ]);
     }
 
