@@ -1,0 +1,162 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\ShortUrl;
+use App\Services\UrlShortenerService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Illuminate\View\View;
+use InvalidArgumentException;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
+class ShortUrlController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request): View
+    {
+        $user = $request->user();
+        $query = ShortUrl::with('user');
+
+        if (!$user->isAdmin()) {
+            $query->where('user_id', $user->id);
+        }
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('short_code', 'like', "%{$search}%")
+                    ->orWhere('original_url', 'like', "%{$search}%");
+            });
+        }
+
+        $shortUrls = $query->latest()->paginate(15)->withQueryString();
+
+        return view('urls.index', compact('shortUrls'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request, UrlShortenerService $service): RedirectResponse
+    {
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'original_url' => ['required', 'string', 'url', 'max:2048'],
+            'short_code' => ['nullable', 'string', 'min:3', 'max:64', 'alpha_dash:ascii', 'unique:short_urls,short_code'],
+        ], [
+            'title.required' => 'Judul tautan wajib diisi.',
+            'original_url.required' => 'URL tujuan wajib diisi.',
+            'original_url.url' => 'Format URL tujuan tidak valid.',
+            'short_code.min' => 'Kustom tautan minimal 3 karakter.',
+            'short_code.max' => 'Kustom tautan maksimal 64 karakter.',
+            'short_code.alpha_dash' => 'Kustom tautan hanya boleh memuat huruf, angka, tanda strip, dan garis bawah.',
+            'short_code.unique' => 'Kustom tautan sudah digunakan oleh tautan lain.',
+        ]);
+
+        try {
+            $service->validateDestinationUrl($request->input('original_url'), $request->getHost());
+        } catch (InvalidArgumentException $e) {
+            return back()->withErrors(['original_url' => $e->getMessage()])->withInput();
+        }
+
+        $shortCode = $request->input('short_code');
+
+        if ($shortCode) {
+            $shortCode = Str::slug($shortCode);
+            if ($service->isSlugReserved($shortCode)) {
+                return back()->withErrors(['short_code' => 'Kustom tautan tersebut adalah kata kunci terproteksi sistem.'])->withInput();
+            }
+        } else {
+            $shortCode = $service->generateUniqueCode();
+        }
+
+        $request->user()->shortUrls()->create([
+            'title' => $request->input('title'),
+            'original_url' => $request->input('original_url'),
+            'short_code' => $shortCode,
+            'is_active' => true,
+        ]);
+
+        return redirect()->route('urls.index')->with('success', 'Tautan pendek berhasil dibuat.');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, ShortUrl $url, UrlShortenerService $service): RedirectResponse
+    {
+        $user = $request->user();
+
+        if (!$user->isAdmin() && $url->user_id !== $user->id) {
+            abort(403, 'Akses tidak diizinkan.');
+        }
+
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'original_url' => ['required', 'string', 'url', 'max:2048'],
+            'is_active' => ['required', 'boolean'],
+        ], [
+            'title.required' => 'Judul tautan wajib diisi.',
+            'original_url.required' => 'URL tujuan wajib diisi.',
+            'original_url.url' => 'Format URL tujuan tidak valid.',
+        ]);
+
+        try {
+            $service->validateDestinationUrl($request->input('original_url'), $request->getHost());
+        } catch (InvalidArgumentException $e) {
+            return back()->withErrors(['original_url' => $e->getMessage()]);
+        }
+
+        $url->update([
+            'title' => $request->input('title'),
+            'original_url' => $request->input('original_url'),
+            'is_active' => $request->boolean('is_active'),
+        ]);
+
+        return redirect()->route('urls.index')->with('success', 'Tautan pendek berhasil diperbarui.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Request $request, ShortUrl $url): RedirectResponse
+    {
+        $user = $request->user();
+
+        if (!$user->isAdmin() && $url->user_id !== $user->id) {
+            abort(403, 'Akses tidak diizinkan.');
+        }
+
+        $url->delete();
+
+        return redirect()->route('urls.index')->with('success', 'Tautan pendek berhasil dihapus.');
+    }
+
+    /**
+     * Generate or download QR Code for the short url.
+     */
+    public function qrCode(ShortUrl $url, Request $request): Response
+    {
+        $targetUrl = $url->full_url;
+        $svg = QrCode::size(300)->errorCorrection('H')->generate($targetUrl);
+
+        $download = $request->boolean('download');
+        $filename = "qr-sinjaikab-{$url->short_code}.svg";
+
+        $headers = [
+            'Content-Type' => 'image/svg+xml',
+        ];
+
+        if ($download) {
+            $headers['Content-Disposition'] = "attachment; filename=\"{$filename}\"";
+        }
+
+        return response($svg, 200, $headers);
+    }
+}
