@@ -5,6 +5,8 @@ Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan for
 ## [1.0.0] - 2026-10-27
 
 ### Ditambahkan
+- Pembaruan antarmuka terinspirasi Bitly dan s.id berupa Kotak Pemendek Cepat (Quick Shorten Bar) dan daftar tautan berpola Hybrid Link Card.
+- Interaksi salin tautan satu ketukan dengan umpan balik status visual instan tanpa dialog pop-up peramban.
 - Penyeragaman peran menjadi user langsung untuk seluruh ASN yang masuk via ENIKDA Gateway, serta penghapusan modul pengelolaan akun manual.
 - Penyesuaian akun bawaan menjadi 1 akun lokal administrator utama: `kalamangna` (kata sandi: `Syazani`), serta pembersihan seluruh akun percontohan lokal.
 - Integrasi autentikasi Gateway ENIKDA / SIMPEG Sinjai untuk login ASN menggunakan NIP dan kata sandi dengan sinkronisasi otomatis nama dan OPD.

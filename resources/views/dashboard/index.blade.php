@@ -12,11 +12,33 @@
 
         <div class="flex items-center gap-3">
             <a href="{{ route('urls.index') }}" class="inline-flex h-10 items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
-                Kelola Tautan
+                Kelola Semua Tautan
             </a>
         </div>
     </div>
 
+    <!-- Kotak Pemendek Cepat (Quick Shorten Bar) -->
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Pemendek Tautan Cepat</h2>
+        <form method="POST" action="{{ route('urls.store') }}" class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+            @csrf
+            <div class="md:col-span-5">
+                <label for="dash_original_url" class="block text-xs font-semibold text-slate-700 mb-1">URL Tujuan Lengkap</label>
+                <input type="url" id="dash_original_url" name="original_url" required placeholder="https://sinjaikab.go.id/berita-resmi" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+            </div>
+            <div class="md:col-span-4">
+                <label for="dash_title" class="block text-xs font-semibold text-slate-700 mb-1">Judul Tautan</label>
+                <input type="text" id="dash_title" name="title" required placeholder="Surat Edaran Bupati Sinjai 2026" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+            </div>
+            <div class="md:col-span-3">
+                <button type="submit" class="inline-flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                    Singkatkan Tautan
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Statistik Ringkasan -->
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
             <p class="text-xs font-medium text-slate-500">Total Tautan Aktif</p>
@@ -31,8 +53,9 @@
         </div>
     </div>
 
-    <div class="rounded-xl border border-slate-200 bg-white shadow-xs overflow-hidden">
-        <div class="border-b border-slate-200 px-5 py-4 flex items-center justify-between">
+    <!-- Tautan Terpopuler Pola Hybrid Card List -->
+    <div class="space-y-4">
+        <div class="flex items-center justify-between">
             <h2 class="text-sm font-bold text-slate-900">Tautan Paling Sering Dikunjungi</h2>
             <a href="{{ route('urls.index') }}" class="text-xs font-semibold text-blue-600 hover:text-blue-800">
                 Lihat Semua
@@ -40,54 +63,61 @@
         </div>
 
         @if($topUrls->isEmpty())
-            <div class="px-5 py-12 text-center">
+            <div class="rounded-xl border border-slate-200 bg-white p-12 text-center shadow-xs">
                 <p class="text-xs text-slate-500">Belum ada data kunjungan tautan.</p>
             </div>
         @else
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs text-slate-700">
-                    <thead class="border-b border-slate-200 bg-slate-50 font-semibold text-slate-600">
-                        <tr>
-                            <th scope="col" class="px-5 py-3">Judul Tautan</th>
-                            <th scope="col" class="px-5 py-3">Tautan Pendek</th>
-                            @if(auth()->user()->isAdmin())
-                                <th scope="col" class="px-5 py-3">OPD Pengelola</th>
-                            @endif
-                            <th scope="col" class="px-5 py-3 text-right">Total Klik</th>
-                            <th scope="col" class="px-5 py-3 text-right">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        @foreach($topUrls as $url)
-                            <tr class="hover:bg-slate-50 transition">
-                                <td class="px-5 py-3.5">
-                                    <p class="font-semibold text-slate-900">{{ $url->title }}</p>
-                                    <p class="text-slate-400 truncate max-w-xs mt-0.5" title="{{ $url->original_url }}">{{ $url->original_url }}</p>
-                                </td>
-                                <td class="px-5 py-3.5 font-mono text-blue-600">
-                                    <a href="{{ $url->full_url }}" target="_blank" rel="noopener noreferrer" class="hover:underline">
-                                        {{ $url->full_url }}
-                                    </a>
-                                </td>
-                                @if(auth()->user()->isAdmin())
-                                    <td class="px-5 py-3.5 text-slate-600">
-                                        {{ $url->user->department ?? $url->user->name ?? 'Admin' }}
-                                    </td>
-                                @endif
-                                <td class="px-5 py-3.5 text-right font-semibold text-slate-900">
-                                    {{ number_format($url->clicks_count, 0, ',', '.') }}
-                                </td>
-                                <td class="px-5 py-3.5 text-right whitespace-nowrap">
-                                    <a href="{{ route('urls.qr', ['url' => $url->id, 'download' => 1]) }}" class="inline-flex h-8 items-center justify-center rounded-md border border-slate-300 bg-white px-2.5 text-xs font-medium text-slate-700 hover:bg-slate-50 focus:outline-hidden">
-                                        Unduh QR Code
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="space-y-3">
+                @foreach($topUrls as $url)
+                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-xs transition hover:border-slate-300">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <div class="min-w-0 flex-1 space-y-1">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="text-sm font-bold text-slate-900 truncate">{{ $url->title }}</h3>
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-bold text-blue-700">
+                                        {{ number_format($url->clicks_count, 0, ',', '.') }} Klik
+                                    </span>
+                                </div>
+                                <a href="{{ $url->full_url }}" target="_blank" rel="noopener noreferrer" class="font-mono text-xs font-bold text-blue-600 hover:underline">
+                                    {{ $url->full_url }}
+                                </a>
+                                <p class="text-xs text-slate-400 truncate" title="{{ $url->original_url }}">
+                                    Menuju: {{ $url->original_url }}
+                                </p>
+                            </div>
+
+                            <div class="flex items-center gap-2 shrink-0">
+                                <button type="button" onclick="copyDashLink('{{ $url->full_url }}', this)" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                    Salin Tautan
+                                </button>
+                                <a href="{{ route('urls.qr', ['url' => $url->id, 'download' => 1]) }}" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                    Unduh QR Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         @endif
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function copyDashLink(text, buttonElement) {
+        navigator.clipboard.writeText(text).then(() => {
+            const originalText = buttonElement.textContent;
+            buttonElement.textContent = 'Tersalin!';
+            buttonElement.classList.remove('text-slate-700', 'bg-white');
+            buttonElement.classList.add('text-emerald-700', 'bg-emerald-50', 'border-emerald-300');
+
+            setTimeout(() => {
+                buttonElement.textContent = originalText;
+                buttonElement.classList.remove('text-emerald-700', 'bg-emerald-50', 'border-emerald-300');
+                buttonElement.classList.add('text-slate-700', 'bg-white');
+            }, 2000);
+        });
+    }
+</script>
+@endpush
