@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Services\EnikdaGatewayService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class AuthController extends Controller
@@ -24,20 +27,67 @@ class AuthController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function login(Request $request): RedirectResponse
+    public function login(Request $request, EnikdaGatewayService $gateway): RedirectResponse
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'string', 'email'],
+        $request->validate([
+            'identifier' => ['required', 'string'],
             'password' => ['required', 'string'],
         ], [
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
+            'identifier.required' => 'NIP atau email kedinasan wajib diisi.',
             'password.required' => 'Kata sandi wajib diisi.',
         ]);
 
+        $identifier = trim($request->input('identifier'));
+        $password = $request->input('password');
         $remember = $request->boolean('remember');
 
-        if (Auth::attempt($credentials, $remember)) {
+        // 1. Coba Autentikasi via Gateway ENIKDA / SIMPEG Sinjai jika format NIP
+        if ($gateway->isNip($identifier)) {
+            $enikdaUser = $gateway->authenticate($identifier, $password);
+
+            if ($enikdaUser) {
+                $user = User::where('nip', $enikdaUser['nip'])->first();
+
+                if (!$user) {
+                    $user = User::where('email', $enikdaUser['email'])->first();
+                }
+
+                if ($user) {
+                    if (!$user->is_active) {
+                        return back()->withErrors([
+                            'identifier' => 'Akun dinonaktifkan oleh administrator.',
+                        ]);
+                    }
+
+                    $user->update([
+                        'nip' => $enikdaUser['nip'],
+                        'name' => $enikdaUser['name'],
+                        'department' => $enikdaUser['department'],
+                    ]);
+                } else {
+                    $user = User::create([
+                        'nip' => $enikdaUser['nip'],
+                        'name' => $enikdaUser['name'],
+                        'email' => $enikdaUser['email'],
+                        'password' => Hash::make($password),
+                        'role' => 'opd',
+                        'department' => $enikdaUser['department'],
+                        'is_active' => true,
+                    ]);
+                }
+
+                Auth::login($user, $remember);
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('dashboard'));
+            }
+        }
+
+        // 2. Fallback Autentikasi Akun Lokal (Berdasarkan Email atau NIP)
+        $credentialsByEmail = ['email' => strtolower($identifier), 'password' => $password];
+        $credentialsByNip = ['nip' => $identifier, 'password' => $password];
+
+        if (Auth::attempt($credentialsByEmail, $remember) || Auth::attempt($credentialsByNip, $remember)) {
             $user = Auth::user();
 
             if (!$user->is_active) {
@@ -46,7 +96,7 @@ class AuthController extends Controller
                 $request->session()->regenerateToken();
 
                 return back()->withErrors([
-                    'email' => 'Akun dinonaktifkan oleh administrator.',
+                    'identifier' => 'Akun dinonaktifkan oleh administrator.',
                 ]);
             }
 
@@ -56,8 +106,8 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau kata sandi yang dimasukkan salah.',
-        ])->onlyInput('email');
+            'identifier' => 'NIP, email dinas, atau kata sandi yang dimasukkan salah.',
+        ])->onlyInput('identifier');
     }
 
     /**

@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'enikda' => [
+        'url' => rtrim(env('ENIKDA_API_URL', 'https://apps.sinjaikab.go.id/api/pegawai'), '/'),
+        'timeout' => (int) env('ENIKDA_API_TIMEOUT', 10),
+    ],
+
 ];

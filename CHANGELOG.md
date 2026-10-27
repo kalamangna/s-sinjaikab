@@ -5,6 +5,9 @@ Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan for
 ## [1.0.0] - 2026-10-27
 
 ### Ditambahkan
+- Integrasi autentikasi Gateway ENIKDA / SIMPEG Sinjai untuk login ASN menggunakan NIP dan kata sandi dengan sinkronisasi otomatis nama dan OPD.
+- Migrasi penambahan kolom `nip` pada tabel `users`.
+- Layanan `EnikdaGatewayService` untuk komunikasi API gateway kepegawaian beserta verifikasi fallback hash.
 - Inisialisasi awal proyek Laravel 13 dan konfigurasi Tailwind CSS untuk domain `s.sinjaikab.go.id`.
 - Migrasi tabel `short_urls` dan penambahan kolom hak akses peran OPD serta unit kerja pada tabel `users`.
 - Modul autentikasi pengguna dengan isolasi hak akses antara Administrator Diskominfo dan Operator OPD.

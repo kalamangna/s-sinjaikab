@@ -16,7 +16,7 @@
             Masuk Layanan Tautan Sinjaikab
         </h2>
         <p class="mt-1 text-xs text-slate-500">
-            Khusus Akun OPD dan Administrator Diskominfo Sinjai
+            Terhubung Gateway ENIKDA untuk ASN dan Akun Administrator Diskominfo
         </p>
     </div>
 
@@ -26,11 +26,11 @@
                 @csrf
 
                 <div>
-                    <label for="email" class="block text-xs font-semibold text-slate-700">Email Kedinasan</label>
+                    <label for="identifier" class="block text-xs font-semibold text-slate-700">NIP atau Email Kedinasan</label>
                     <div class="mt-1">
-                        <input id="email" name="email" type="email" autocomplete="email" required value="{{ old('email') }}" placeholder="diskominfo@sinjaikab.go.id" class="block h-11 w-full rounded-lg border {{ $errors->has('email') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-sm text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
+                        <input id="identifier" name="identifier" type="text" autocomplete="username" required value="{{ old('identifier') }}" placeholder="198507102010011005 atau admin@sinjaikab.go.id" class="block h-11 w-full rounded-lg border {{ $errors->has('identifier') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-sm text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
                     </div>
-                    @error('email')
+                    @error('identifier')
                         <p class="mt-1.5 text-xs text-rose-600 font-medium">{{ $message }}</p>
                     @enderror
                 </div>
@@ -61,7 +61,7 @@
 
             <div class="mt-6 border-t border-slate-100 pt-4 text-center">
                 <p class="text-xs text-slate-500">
-                    Kendala akun hubungi Tim SinjaiKab-CSIRT atau Bidang IKP Diskominfo Sinjai
+                    Pegawai ASN dapat masuk langsung menggunakan NIP dan kata sandi akun ENIKDA
                 </p>
             </div>
         </div>
