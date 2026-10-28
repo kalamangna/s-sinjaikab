@@ -8,7 +8,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -23,7 +22,7 @@ class ShortUrlController extends Controller
         $user = $request->user();
         $query = ShortUrl::with('user');
 
-        if (!$user->isAdmin()) {
+        if (! $user->isAdmin()) {
             $query->where('user_id', $user->id);
         }
 
@@ -93,7 +92,7 @@ class ShortUrlController extends Controller
     {
         $user = $request->user();
 
-        if (!$user->isAdmin() && $url->user_id !== $user->id) {
+        if (! $user->isAdmin() && $url->user_id !== $user->id) {
             abort(403, 'Akses tidak diizinkan.');
         }
 
@@ -129,7 +128,7 @@ class ShortUrlController extends Controller
     {
         $user = $request->user();
 
-        if (!$user->isAdmin() && $url->user_id !== $user->id) {
+        if (! $user->isAdmin() && $url->user_id !== $user->id) {
             abort(403, 'Akses tidak diizinkan.');
         }
 

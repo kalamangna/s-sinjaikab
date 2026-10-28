@@ -19,10 +19,9 @@ class DatabaseSeeder extends Seeder
     {
         // 1 akun lokal administrator utama: kalamangna
         $admin = User::updateOrCreate(
-            ['nip' => 'kalamangna'],
+            ['username' => 'kalamangna'],
             [
                 'name' => 'kalamangna',
-                'email' => 'kalamangna@sinjaikab.go.id',
                 'password' => Hash::make('Syazani'),
                 'role' => 'admin',
                 'department' => 'Dinas Komunikasi Informatika dan Persandian',
@@ -31,10 +30,10 @@ class DatabaseSeeder extends Seeder
         );
 
         // Hapus akun contoh dummy lama bila ada
-        User::whereIn('email', [
-            'admin@sinjaikab.go.id',
-            'disdik@sinjaikab.go.id',
-            'dinkes@sinjaikab.go.id',
+        User::whereIn('username', [
+            'admin',
+            'disdik',
+            'dinkes',
         ])->delete();
 
         // Tautan awal bawaan

@@ -2,6 +2,21 @@
 
 Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan format [Keep a Changelog](https://keepachangelog.com/id/1.1.0/).
 
+## [1.2.0] - 2026-10-28
+
+### Ditambahkan
+- Kolom `username` pada tabel `users` khusus administrator lokal tanpa ketergantungan email.
+- Banner alert kendala autentikasi pada formulir login dengan ikon bahaya dan penanda batas warna kontras.
+- Tombol toggle lihat dan sembunyikan password dengan dukungan aksesibilitas `aria-label`.
+- Penanganan sesi kendala `session('error')` pada komponen notifikasi mengambang (floating toast).
+
+### Diubah
+- Alur autentikasi login kini menggunakan NIP untuk ASN dan Username untuk Administrator, serta menghapus ketergantungan kolom email.
+- Halaman login diperbarui menjadi Login Akun ENIKDA dengan kolom NIP (autofokus) dan Password tanpa kotak centang simpan sesi.
+- Halaman muka publik disederhanakan menjadi tampilan satu layar fokus tanpa kartu pemasaran bertumpuk.
+- Standardisasi pesan kegagalan autentikasi menjadi lugas dan definitif: "NIP atau Password salah."
+- Batas prasyarat PHP pada composer.json disesuaikan menjadi ^8.4.1.
+
 ## [1.1.0] - 2026-10-28
 
 ### Ditambahkan

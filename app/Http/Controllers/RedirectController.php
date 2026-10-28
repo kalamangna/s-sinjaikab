@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ShortUrl;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,7 +25,7 @@ class RedirectController extends Controller
             ->where('is_active', true)
             ->first();
 
-        if (!$shortUrl) {
+        if (! $shortUrl) {
             return response()->view('errors.404', [
                 'message' => 'Tautan pendek tidak ditemukan atau telah dinonaktifkan.',
             ], 404);

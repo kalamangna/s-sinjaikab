@@ -4,7 +4,7 @@ Layanan pemendek tautan web resmi Pemerintah Kabupaten Sinjai berbasis domain s.
 
 ## Prasyarat Sistem
 
-- PHP 8.3 atau lebih baru (ekstensi: pdo, pdo_sqlite atau pdo_mysql, mbstring, openssl, xml)
+- PHP 8.4.1 atau lebih baru (ekstensi: pdo, pdo_sqlite atau pdo_mysql, mbstring, openssl, xml)
 - Composer 2.x
 - Node.js 20 atau lebih baru dan npm
 

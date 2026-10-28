@@ -15,15 +15,14 @@ class AuthenticationTest extends TestCase
     {
         $response = $this->get('/login');
         $response->assertStatus(200);
-        $response->assertSee('Masuk Layanan Tautan Sinjaikab');
+        $response->assertSee('Login Akun ENIKDA');
     }
 
     public function test_kalamangna_local_admin_can_authenticate(): void
     {
         User::create([
-            'nip' => 'kalamangna',
+            'username' => 'kalamangna',
             'name' => 'kalamangna',
-            'email' => 'kalamangna@sinjaikab.go.id',
             'password' => bcrypt('Syazani'),
             'role' => 'admin',
             'department' => 'Dinas Komunikasi Informatika dan Persandian',
@@ -40,16 +39,16 @@ class AuthenticationTest extends TestCase
         $this->assertTrue(auth()->user()->isAdmin());
     }
 
-    public function test_users_can_authenticate_via_local_email(): void
+    public function test_users_can_authenticate_via_local_username(): void
     {
         $user = User::factory()->create([
-            'email' => 'operator@sinjaikab.go.id',
+            'username' => 'operator_sinjai',
             'password' => bcrypt('password123'),
             'is_active' => true,
         ]);
 
         $response = $this->post('/login', [
-            'identifier' => 'operator@sinjaikab.go.id',
+            'identifier' => 'operator_sinjai',
             'password' => 'password123',
         ]);
 
@@ -92,13 +91,13 @@ class AuthenticationTest extends TestCase
     public function test_inactive_users_cannot_authenticate(): void
     {
         $user = User::factory()->create([
-            'email' => 'nonaktif@sinjaikab.go.id',
+            'username' => 'nonaktif',
             'password' => bcrypt('password123'),
             'is_active' => false,
         ]);
 
         $response = $this->post('/login', [
-            'identifier' => 'nonaktif@sinjaikab.go.id',
+            'identifier' => 'nonaktif',
             'password' => 'password123',
         ]);
 

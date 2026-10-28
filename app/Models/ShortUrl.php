@@ -50,6 +50,6 @@ class ShortUrl extends Model
      */
     public function getFullUrlAttribute(): string
     {
-        return url('/' . $this->short_code);
+        return url('/'.$this->short_code);
     }
 }

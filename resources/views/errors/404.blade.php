@@ -10,16 +10,16 @@
 <body class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans antialiased text-slate-800 text-center">
     <div class="sm:mx-auto sm:w-full sm:max-w-md px-4">
         <a href="{{ route('home') }}" class="inline-flex items-center gap-3 focus:outline-hidden">
-            <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-14 w-auto object-contain mx-auto">
+            <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-11 w-auto object-contain mx-auto">
         </a>
 
-        <div class="mt-6 rounded-2xl border border-slate-200 bg-white p-8 shadow-xs">
+        <div class="mt-6 rounded-xl border border-slate-200 bg-white p-6 shadow-xs sm:p-8">
             <span class="inline-flex rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">Galat 404</span>
             <h1 class="mt-4 text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
                 Tautan Pendek Tidak Ditemukan
             </h1>
             <p class="mt-2 text-xs text-slate-600 leading-relaxed">
-                {{ $message ?? 'Alamat tautan pendek yang Anda tuju tidak terdaftar atau telah dinonaktifkan oleh unit kerja pengelola.' }}
+                {{ $message ?? 'Alamat tautan pendek yang Anda tuju tidak terdaftar atau sudah dinonaktifkan.' }}
             </p>
 
             <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -33,7 +33,7 @@
         </div>
 
         <p class="mt-6 text-xs text-slate-400">
-            Layanan Resmi s.sinjaikab.go.id • Pemerintah Kabupaten Sinjai
+            Layanan Resmi s.sinjaikab.go.id • Diskominfo Sinjai
         </p>
     </div>
 </body>

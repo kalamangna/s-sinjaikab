@@ -3,71 +3,72 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - Shortener Sinjaikab</title>
+    <title>Login - s.sinjaikab.go.id</title>
     <link rel="icon" type="image/png" href="{{ asset('images/logo-sinjai.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans antialiased text-slate-800">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <a href="{{ route('home') }}" class="inline-flex items-center gap-3 focus:outline-hidden">
-            <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-12 w-auto object-contain">
-        </a>
-        <h2 class="mt-4 text-2xl font-bold tracking-tight text-slate-900">
-            Masuk Layanan Tautan Sinjaikab
-        </h2>
-        <p class="mt-1 text-xs text-slate-500">
-            Terhubung Gateway ENIKDA untuk ASN dan Akun Administrator Diskominfo
-        </p>
-    </div>
+<body class="flex min-h-full flex-col justify-center py-12 px-4 sm:px-6 font-sans antialiased text-slate-800">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div class="text-center">
+            <a href="{{ route('home') }}" class="inline-flex focus:outline-hidden focus:ring-2 focus:ring-blue-600 rounded-lg">
+                <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-11 w-auto object-contain">
+            </a>
+            <h1 class="mt-4 text-xl font-bold tracking-tight text-slate-900">
+                Login Akun ENIKDA
+            </h1>
+        </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
-        <div class="border border-slate-200 bg-white p-6 shadow-xs rounded-xl sm:p-8">
-            <form method="POST" action="{{ route('login') }}" class="space-y-5">
+        <div class="mt-6 rounded-xl border border-slate-200 bg-white p-6 shadow-xs sm:p-7">
+            @if(session('error') || $errors->any())
+                <div class="mb-4 flex items-start gap-2.5 rounded-lg border border-rose-200 bg-rose-50 p-3 text-xs text-rose-800" role="alert">
+                    <svg class="h-4 w-4 text-rose-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <div class="font-medium space-y-0.5">
+                        @if(session('error'))
+                            <p>{{ session('error') }}</p>
+                        @endif
+                        @foreach($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
 
                 <div>
-                    <label for="identifier" class="block text-xs font-semibold text-slate-700">NIP atau Email Kedinasan</label>
-                    <div class="mt-1">
-                        <input id="identifier" name="identifier" type="text" autocomplete="username" required value="{{ old('identifier') }}" placeholder="198507102010011005 atau admin@sinjaikab.go.id" class="block h-11 w-full rounded-lg border {{ $errors->has('identifier') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-sm text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
-                    </div>
-                    @error('identifier')
-                        <p class="mt-1.5 text-xs text-rose-600 font-medium">{{ $message }}</p>
-                    @enderror
+                    <label for="identifier" class="block text-xs font-semibold text-slate-700 mb-1">NIP</label>
+                    <input id="identifier" name="identifier" type="text" autocomplete="username" required autofocus value="{{ old('identifier') }}" placeholder="18 digit NIP" class="block h-11 w-full rounded-lg border {{ $errors->has('identifier') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
                 </div>
 
                 <div>
-                    <label for="password" class="block text-xs font-semibold text-slate-700">Kata Sandi</label>
-                    <div class="mt-1">
-                        <input id="password" name="password" type="password" autocomplete="current-password" required class="block h-11 w-full rounded-lg border {{ $errors->has('password') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-sm text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
+                    <label for="password" class="block text-xs font-semibold text-slate-700 mb-1">Password</label>
+                    <div class="relative">
+                        <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••" class="block h-11 w-full rounded-lg border {{ $errors->has('password') || $errors->has('identifier') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} pl-3 pr-11 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
+                        <button type="button" id="togglePassword" aria-label="Tampilkan password" class="absolute inset-y-0 right-0 flex h-11 w-11 items-center justify-center text-slate-400 hover:text-slate-600 focus:outline-hidden focus:text-blue-600">
+                            <svg id="eyeIcon" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <svg id="eyeSlashIcon" class="h-4 w-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                            </svg>
+                        </button>
                     </div>
-                    @error('password')
-                        <p class="mt-1.5 text-xs text-rose-600 font-medium">{{ $message }}</p>
-                    @enderror
                 </div>
 
-                <div class="flex items-center justify-between">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="remember" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
-                        <span class="text-xs text-slate-600 select-none">Ingat perangkat ini</span>
-                    </label>
-                </div>
-
-                <div>
-                    <button type="submit" data-loading-text="Memproses Login..." class="flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                <div class="pt-1">
+                    <button type="submit" data-loading-text="Memproses..." class="flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                         Login
                     </button>
                 </div>
             </form>
-
-            <div class="mt-6 border-t border-slate-100 pt-4 text-center">
-                <p class="text-xs text-slate-500">
-                    Pegawai ASN dapat masuk langsung menggunakan NIP dan kata sandi akun ENIKDA
-                </p>
-            </div>
         </div>
 
-        <div class="mt-6 text-center">
-            <a href="{{ route('home') }}" class="text-xs font-medium text-slate-500 hover:text-slate-800">
+        <div class="mt-5 text-center">
+            <a href="{{ route('home') }}" class="text-xs font-medium text-slate-500 hover:text-slate-800 transition">
                 Kembali ke Beranda
             </a>
         </div>
@@ -75,6 +76,22 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('togglePassword');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function () {
+                    const input = document.getElementById('password');
+                    const eyeIcon = document.getElementById('eyeIcon');
+                    const eyeSlashIcon = document.getElementById('eyeSlashIcon');
+                    if (!input) return;
+
+                    const isPassword = input.type === 'password';
+                    input.type = isPassword ? 'text' : 'password';
+                    this.setAttribute('aria-label', isPassword ? 'Sembunyikan password' : 'Tampilkan password');
+                    eyeIcon?.classList.toggle('hidden', isPassword);
+                    eyeSlashIcon?.classList.toggle('hidden', !isPassword);
+                });
+            }
+
             const form = document.querySelector('form');
             if (form) {
                 form.addEventListener('submit', function (e) {

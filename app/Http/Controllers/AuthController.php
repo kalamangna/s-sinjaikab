@@ -33,8 +33,8 @@ class AuthController extends Controller
             'identifier' => ['required', 'string'],
             'password' => ['required', 'string'],
         ], [
-            'identifier.required' => 'NIP atau email kedinasan wajib diisi.',
-            'password.required' => 'Kata sandi wajib diisi.',
+            'identifier.required' => 'NIP wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
         ]);
 
         $identifier = trim($request->input('identifier'));
@@ -48,19 +48,14 @@ class AuthController extends Controller
             if ($enikdaUser) {
                 $user = User::where('nip', $enikdaUser['nip'])->first();
 
-                if (!$user) {
-                    $user = User::where('email', $enikdaUser['email'])->first();
-                }
-
                 if ($user) {
-                    if (!$user->is_active) {
+                    if (! $user->is_active) {
                         return back()->withErrors([
                             'identifier' => 'Akun dinonaktifkan oleh administrator.',
                         ]);
                     }
 
                     $user->update([
-                        'nip' => $enikdaUser['nip'],
                         'name' => $enikdaUser['name'],
                         'department' => $enikdaUser['department'],
                     ]);
@@ -68,7 +63,6 @@ class AuthController extends Controller
                     $user = User::create([
                         'nip' => $enikdaUser['nip'],
                         'name' => $enikdaUser['name'],
-                        'email' => $enikdaUser['email'],
                         'password' => Hash::make($password),
                         'role' => 'user',
                         'department' => $enikdaUser['department'],
@@ -83,14 +77,14 @@ class AuthController extends Controller
             }
         }
 
-        // 2. Fallback Autentikasi Akun Lokal (Berdasarkan Email atau NIP)
-        $credentialsByEmail = ['email' => strtolower($identifier), 'password' => $password];
+        // 2. Fallback Autentikasi Akun Lokal (Berdasarkan Username untuk Admin atau NIP)
+        $credentialsByUsername = ['username' => strtolower($identifier), 'password' => $password];
         $credentialsByNip = ['nip' => $identifier, 'password' => $password];
 
-        if (Auth::attempt($credentialsByEmail, $remember) || Auth::attempt($credentialsByNip, $remember)) {
+        if (Auth::attempt($credentialsByUsername, $remember) || Auth::attempt($credentialsByNip, $remember)) {
             $user = Auth::user();
 
-            if (!$user->is_active) {
+            if (! $user->is_active) {
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
@@ -106,7 +100,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'identifier' => 'NIP, email dinas, atau kata sandi yang dimasukkan salah.',
+            'identifier' => 'NIP atau Password salah.',
         ])->onlyInput('identifier');
     }
 

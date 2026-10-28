@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 class EnikdaGatewayService
 {
     protected string $baseUrl;
+
     protected int $timeout;
 
     public function __construct()
@@ -23,13 +24,14 @@ class EnikdaGatewayService
     public function isNip(string $identifier): bool
     {
         $clean = trim($identifier);
+
         return ctype_digit($clean) && strlen($clean) >= 9;
     }
 
     /**
      * Authenticate employee credentials against ENIKDA / SIMPEG Gateway.
      *
-     * @return array{nip: string, name: string, department: string, email: string}|null
+     * @return array{nip: string, name: string, department: string}|null
      */
     public function authenticate(string $nip, string $password): ?array
     {
@@ -44,10 +46,10 @@ class EnikdaGatewayService
 
             $authBody = trim($authResponse->body());
             $isHtml = str_contains($authBody, '<html') || str_contains($authBody, '<!DOCTYPE') || str_contains($authBody, '<br') || str_contains($authBody, '<h1>');
-            $authPassed = (!$isHtml && $authResponse->successful() && !empty($authBody) && $authBody !== '0' && $authBody !== 'false');
+            $authPassed = (! $isHtml && $authResponse->successful() && ! empty($authBody) && $authBody !== '0' && $authBody !== 'false');
 
             // 2. Fallback via MD5 hash comparison on data_pegawai if user_auth returns non-standard response
-            if (!$authPassed && !$authResponse->serverError()) {
+            if (! $authPassed && ! $authResponse->serverError()) {
                 $pegawaiCheck = Http::timeout(min(5, $this->timeout))->get("{$this->baseUrl}/data_pegawai/", [
                     'nip' => $nip,
                 ]);
@@ -55,13 +57,13 @@ class EnikdaGatewayService
                 if ($pegawaiCheck->successful()) {
                     $pCheckData = $pegawaiCheck->json();
                     $pc = $pCheckData['data'] ?? ($pCheckData[0] ?? $pCheckData);
-                    if (is_array($pc) && !empty($pc['password']) && strtolower($pc['password']) === md5($password)) {
+                    if (is_array($pc) && ! empty($pc['password']) && strtolower($pc['password']) === md5($password)) {
                         $authPassed = true;
                     }
                 }
             }
 
-            if (!$authPassed) {
+            if (! $authPassed) {
                 return null;
             }
 
@@ -70,18 +72,18 @@ class EnikdaGatewayService
                 'nip' => $nip,
             ]);
 
-            if (!$pegawaiResponse->successful()) {
+            if (! $pegawaiResponse->successful()) {
                 return null;
             }
 
             $pegawaiData = $pegawaiResponse->json();
             $pData = $pegawaiData['data'] ?? ($pegawaiData[0] ?? $pegawaiData);
 
-            if (!is_array($pData) || empty($pData['nama_pegawai'] ?? $pData['nama'] ?? null)) {
+            if (! is_array($pData) || empty($pData['nama_pegawai'] ?? $pData['nama'] ?? null)) {
                 return null;
             }
 
-            $name = trim((string)($pData['nama_pegawai'] ?? $pData['nama']));
+            $name = trim((string) ($pData['nama_pegawai'] ?? $pData['nama']));
             $unitId = $pData['unit_id'] ?? ($pData['id_unit'] ?? null);
             $department = 'Pemerintah Kabupaten Sinjai';
 
@@ -95,12 +97,12 @@ class EnikdaGatewayService
                         $unitData = $unitResponse->json();
                         $uData = $unitData['data'] ?? ($unitData[0] ?? $unitData);
                         $fetchedUnit = $uData['unit_nama'] ?? ($uData['nama_unit'] ?? ($uData['unit_kerja'] ?? null));
-                        if (!empty($fetchedUnit)) {
-                            $department = trim((string)$fetchedUnit);
+                        if (! empty($fetchedUnit)) {
+                            $department = trim((string) $fetchedUnit);
                         }
                     }
                 } catch (Exception $e) {
-                    Log::warning("ENIKDA get_unit error for unit {$unitId}: " . $e->getMessage());
+                    Log::warning("ENIKDA get_unit error for unit {$unitId}: ".$e->getMessage());
                 }
             }
 
@@ -108,10 +110,10 @@ class EnikdaGatewayService
                 'nip' => $nip,
                 'name' => $name,
                 'department' => $department,
-                'email' => "{$nip}@sinjaikab.go.id",
             ];
         } catch (Exception $e) {
-            Log::warning("ENIKDA Gateway error for NIP {$nip}: " . $e->getMessage());
+            Log::warning("ENIKDA Gateway error for NIP {$nip}: ".$e->getMessage());
+
             return null;
         }
     }

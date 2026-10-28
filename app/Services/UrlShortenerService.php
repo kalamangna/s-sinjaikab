@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\ShortUrl;
-use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 class UrlShortenerService
@@ -32,7 +31,7 @@ class UrlShortenerService
      * Prohibited file extensions for security.
      */
     protected const DANGEROUS_EXTENSIONS = [
-        'exe', 'bat', 'cmd', 'sh', 'msi', 'apk', 'vbs', 'ps1', 'scr', 'pif', 'com', 'jar'
+        'exe', 'bat', 'cmd', 'sh', 'msi', 'apk', 'vbs', 'ps1', 'scr', 'pif', 'com', 'jar',
     ];
 
     /**
@@ -42,14 +41,14 @@ class UrlShortenerService
      */
     public function validateDestinationUrl(string $url, ?string $requestHost = null): void
     {
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        if (! filter_var($url, FILTER_VALIDATE_URL)) {
             throw new InvalidArgumentException('Format URL tujuan tidak valid.');
         }
 
         $parsed = parse_url($url);
         $scheme = strtolower($parsed['scheme'] ?? '');
 
-        if (!in_array($scheme, ['https', 'http'], true)) {
+        if (! in_array($scheme, ['https', 'http'], true)) {
             throw new InvalidArgumentException('URL tujuan harus menggunakan protokol HTTP atau HTTPS.');
         }
 

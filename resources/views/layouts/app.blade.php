@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Shortener Sinjaikab') - Layanan Tautan Pendek Resmi</title>
+    <title>@yield('title', 'Pemendek Tautan') - s.sinjaikab.go.id</title>
     <link rel="icon" type="image/png" href="{{ asset('images/logo-sinjai.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -16,7 +16,7 @@
                     <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-9 w-auto object-contain">
                     <div class="flex flex-col">
                         <span class="text-sm font-bold tracking-tight text-slate-900 sm:text-base">s.sinjaikab.go.id</span>
-                        <span class="text-xs text-slate-500">Layanan Tautan Pemkab Sinjai</span>
+                        <span class="text-xs text-slate-500">Pemendek Tautan</span>
                     </div>
                 </a>
 
@@ -64,11 +64,28 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
                     <div>
-                        <p class="text-xs font-bold text-emerald-900">Pemberitahuan Sistem</p>
+                        <p class="text-xs font-bold text-emerald-900">Berhasil</p>
                         <p class="text-xs text-emerald-800 mt-0.5">{{ session('success') }}</p>
                     </div>
                 </div>
                 <button type="button" onclick="dismissToast('toast-success')" aria-label="Tutup pemberitahuan" class="text-emerald-700 hover:text-emerald-900 text-lg leading-none p-1 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 rounded">
+                    &times;
+                </button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div id="toast-session-error" class="pointer-events-auto flex items-start justify-between rounded-xl border border-rose-200 bg-rose-50 p-4 text-rose-900 shadow-lg transition-opacity duration-300" role="alert">
+                <div class="flex items-start gap-3">
+                    <svg class="h-5 w-5 text-rose-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs font-bold text-rose-900">Kendala</p>
+                        <p class="text-xs text-rose-800 mt-0.5">{{ session('error') }}</p>
+                    </div>
+                </div>
+                <button type="button" onclick="dismissToast('toast-session-error')" aria-label="Tutup pemberitahuan kendala" class="text-rose-700 hover:text-rose-900 text-lg leading-none p-1 focus:outline-hidden focus:ring-2 focus:ring-rose-500 rounded">
                     &times;
                 </button>
             </div>
@@ -81,7 +98,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                     <div>
-                        <p class="text-xs font-bold text-rose-900">Kendala Pengisian Formulir</p>
+                        <p class="text-xs font-bold text-rose-900">Periksa Kembali Isian</p>
                         <ul class="mt-1 list-inside list-disc text-xs text-rose-800 space-y-0.5">
                             @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -104,8 +121,7 @@
 
     <footer class="mt-auto border-t border-slate-200 bg-white py-6">
         <div class="mx-auto max-w-7xl px-4 text-center text-xs text-slate-500 sm:px-6 lg:px-8">
-            <p>Pemerintah Kabupaten Sinjai • Dinas Komunikasi Informatika dan Persandian</p>
-            <p class="mt-1 text-slate-400">Domain Resmi s.sinjaikab.go.id</p>
+            <p>Diskominfo Sinjai • Layanan Tautan Resmi s.sinjaikab.go.id</p>
         </div>
     </footer>
 
@@ -116,6 +132,22 @@
                 toast.classList.add('opacity-0');
                 setTimeout(() => toast.remove(), 300);
             }
+        }
+
+        // Salin Tautan Satu Ketukan Global
+        function copyShortLink(text, buttonElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = buttonElement.textContent;
+                buttonElement.textContent = 'Tersalin!';
+                buttonElement.classList.remove('text-slate-700', 'bg-white');
+                buttonElement.classList.add('text-emerald-700', 'bg-emerald-50', 'border-emerald-300');
+
+                setTimeout(() => {
+                    buttonElement.textContent = originalText;
+                    buttonElement.classList.remove('text-emerald-700', 'bg-emerald-50', 'border-emerald-300');
+                    buttonElement.classList.add('text-slate-700', 'bg-white');
+                }, 2000);
+            });
         }
 
         // Auto-dismiss toast setelah 5 detik
@@ -129,7 +161,7 @@
             });
         }, 5000);
 
-        // Pencegahan Klik Ganda pada Seluruh Formulir
+        // Pencegahan Klik Ganda & Penutupan Modal dengan ESC
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('form').forEach(form => {
                 form.addEventListener('submit', function (e) {
@@ -147,6 +179,14 @@
                         submitBtn.textContent = loadingLabel;
                     }
                 });
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('#modal-create-url, #modal-edit-url').forEach(modal => {
+                        modal.classList.add('hidden');
+                    });
+                }
             });
         });
     </script>
