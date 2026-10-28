@@ -24,14 +24,20 @@
             @csrf
             <div class="md:col-span-5">
                 <label for="dash_original_url" class="block text-xs font-semibold text-slate-700 mb-1">URL Tujuan Lengkap</label>
-                <input type="url" id="dash_original_url" name="original_url" required placeholder="https://sinjaikab.go.id/berita-resmi" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                <input type="url" id="dash_original_url" name="original_url" required value="{{ old('original_url') }}" placeholder="https://sinjaikab.go.id/berita-resmi" class="block h-11 w-full rounded-lg border {{ $errors->has('original_url') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
+                @error('original_url')
+                    <p class="mt-1 text-[11px] font-medium text-rose-600">{{ $message }}</p>
+                @enderror
             </div>
             <div class="md:col-span-4">
                 <label for="dash_title" class="block text-xs font-semibold text-slate-700 mb-1">Judul Tautan</label>
-                <input type="text" id="dash_title" name="title" required placeholder="Surat Edaran Bupati Sinjai 2026" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                <input type="text" id="dash_title" name="title" required value="{{ old('title') }}" placeholder="Surat Edaran Bupati Sinjai 2026" class="block h-11 w-full rounded-lg border {{ $errors->has('title') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
+                @error('title')
+                    <p class="mt-1 text-[11px] font-medium text-rose-600">{{ $message }}</p>
+                @enderror
             </div>
             <div class="md:col-span-3">
-                <button type="submit" class="inline-flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                <button type="submit" data-loading-text="Menyimpan..." class="inline-flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                     Singkatkan Tautan
                 </button>
             </div>
@@ -64,7 +70,8 @@
 
         @if($topUrls->isEmpty())
             <div class="rounded-xl border border-slate-200 bg-white p-12 text-center shadow-xs">
-                <p class="text-xs text-slate-500">Belum ada data kunjungan tautan.</p>
+                <p class="text-sm font-semibold text-slate-700">Belum ada kunjungan tautan</p>
+                <p class="mt-1 text-xs text-slate-500">Data statistik kunjungan akan dicatat otomatis setelah tautan dibagikan</p>
             </div>
         @else
             <div class="space-y-3">
@@ -82,16 +89,16 @@
                                     {{ $url->full_url }}
                                 </a>
                                 <p class="text-xs text-slate-400 truncate" title="{{ $url->original_url }}">
-                                    Menuju: {{ $url->original_url }}
+                                    Alamat Tujuan: {{ $url->original_url }}
                                 </p>
                             </div>
 
                             <div class="flex items-center gap-2 shrink-0">
-                                <button type="button" onclick="copyDashLink('{{ $url->full_url }}', this)" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                <button type="button" onclick="copyDashLink('{{ $url->full_url }}', this)" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                                     Salin Tautan
                                 </button>
-                                <a href="{{ route('urls.qr', ['url' => $url->id, 'download' => 1]) }}" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
-                                    Unduh QR Code
+                                <a href="{{ route('urls.qr', ['url' => $url->id, 'download' => 1]) }}" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                                    Unduh Kode QR
                                 </a>
                             </div>
                         </div>

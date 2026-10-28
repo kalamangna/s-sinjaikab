@@ -12,7 +12,7 @@
     <header class="sticky top-0 z-40 border-b border-slate-200 bg-white shadow-xs">
         <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <div class="flex items-center gap-4">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                     <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-9 w-auto object-contain">
                     <div class="flex flex-col">
                         <span class="text-sm font-bold tracking-tight text-slate-900 sm:text-base">s.sinjaikab.go.id</span>
@@ -21,10 +21,10 @@
                 </a>
 
                 <nav class="hidden md:ml-8 md:flex md:items-center md:gap-1">
-                    <a href="{{ route('dashboard') }}" class="rounded-md px-3 py-2 text-sm font-medium transition {{ request()->routeIs('dashboard') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                    <a href="{{ route('dashboard') }}" class="rounded-md px-3 py-2 text-sm font-medium transition focus:outline-hidden focus:ring-2 focus:ring-blue-600 {{ request()->routeIs('dashboard') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         Dashboard
                     </a>
-                    <a href="{{ route('urls.index') }}" class="rounded-md px-3 py-2 text-sm font-medium transition {{ request()->routeIs('urls.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                    <a href="{{ route('urls.index') }}" class="rounded-md px-3 py-2 text-sm font-medium transition focus:outline-hidden focus:ring-2 focus:ring-blue-600 {{ request()->routeIs('urls.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         Kelola Tautan
                     </a>
                 </nav>
@@ -46,34 +46,58 @@
         </div>
 
         <nav class="flex border-t border-slate-100 px-4 py-2 md:hidden overflow-x-auto gap-2 bg-slate-50">
-            <a href="{{ route('dashboard') }}" class="inline-flex h-10 items-center whitespace-nowrap rounded-md px-3 text-xs font-medium {{ request()->routeIs('dashboard') ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 border border-slate-200' }}">
+            <a href="{{ route('dashboard') }}" class="inline-flex h-10 items-center whitespace-nowrap rounded-md px-3 text-xs font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-600 {{ request()->routeIs('dashboard') ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 border border-slate-200' }}">
                 Dashboard
             </a>
-            <a href="{{ route('urls.index') }}" class="inline-flex h-10 items-center whitespace-nowrap rounded-md px-3 text-xs font-medium {{ request()->routeIs('urls.*') ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 border border-slate-200' }}">
+            <a href="{{ route('urls.index') }}" class="inline-flex h-10 items-center whitespace-nowrap rounded-md px-3 text-xs font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-600 {{ request()->routeIs('urls.*') ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 border border-slate-200' }}">
                 Kelola Tautan
             </a>
         </nav>
     </header>
 
+    <!-- Notifikasi Mengambang (Floating Toast) -->
+    <div id="toast-container" class="fixed top-20 right-4 sm:right-6 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none">
+        @if(session('success'))
+            <div id="toast-success" class="pointer-events-auto flex items-start justify-between rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-900 shadow-lg transition-opacity duration-300" role="status">
+                <div class="flex items-start gap-3">
+                    <svg class="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <div>
+                        <p class="text-xs font-bold text-emerald-900">Pemberitahuan Sistem</p>
+                        <p class="text-xs text-emerald-800 mt-0.5">{{ session('success') }}</p>
+                    </div>
+                </div>
+                <button type="button" onclick="dismissToast('toast-success')" aria-label="Tutup pemberitahuan" class="text-emerald-700 hover:text-emerald-900 text-lg leading-none p-1 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 rounded">
+                    &times;
+                </button>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div id="toast-error" class="pointer-events-auto flex items-start justify-between rounded-xl border border-rose-200 bg-rose-50 p-4 text-rose-900 shadow-lg transition-opacity duration-300" role="alert">
+                <div class="flex items-start gap-3">
+                    <svg class="h-5 w-5 text-rose-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs font-bold text-rose-900">Kendala Pengisian Formulir</p>
+                        <ul class="mt-1 list-inside list-disc text-xs text-rose-800 space-y-0.5">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <button type="button" onclick="dismissToast('toast-error')" aria-label="Tutup pemberitahuan kendala" class="text-rose-700 hover:text-rose-900 text-lg leading-none p-1 focus:outline-hidden focus:ring-2 focus:ring-rose-500 rounded">
+                    &times;
+                </button>
+            </div>
+        @endif
+    </div>
+
     <main class="flex-1 pb-12 pt-6">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            @if(session('success'))
-                <div class="mb-6 flex items-center justify-between rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-800 shadow-xs" role="alert">
-                    <p class="text-sm font-medium">{{ session('success') }}</p>
-                </div>
-            @endif
-
-            @if($errors->any())
-                <div class="mb-6 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-rose-800 shadow-xs" role="alert">
-                    <p class="text-sm font-semibold">Terdapat kendala pada isian Anda:</p>
-                    <ul class="mt-1 list-inside list-disc text-xs space-y-1">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
             @yield('content')
         </div>
     </main>
@@ -85,6 +109,47 @@
         </div>
     </footer>
 
+    <script>
+        function dismissToast(id) {
+            const toast = document.getElementById(id);
+            if (toast) {
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }
+        }
+
+        // Auto-dismiss toast setelah 5 detik
+        setTimeout(() => {
+            ['toast-success', 'toast-error'].forEach(id => {
+                const toast = document.getElementById(id);
+                if (toast) {
+                    toast.classList.add('opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }
+            });
+        }, 5000);
+
+        // Pencegahan Klik Ganda pada Seluruh Formulir
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    if (this.dataset.submitting === 'true') {
+                        e.preventDefault();
+                        return;
+                    }
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        this.dataset.submitting = 'true';
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                        const loadingLabel = submitBtn.dataset.loadingText || 'Menyimpan...';
+                        submitBtn.dataset.originalHtml = submitBtn.innerHTML;
+                        submitBtn.textContent = loadingLabel;
+                    }
+                });
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>

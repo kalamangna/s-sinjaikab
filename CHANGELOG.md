@@ -2,6 +2,20 @@
 
 Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan format [Keep a Changelog](https://keepachangelog.com/id/1.1.0/).
 
+## [1.1.0] - 2026-10-28
+
+### Ditambahkan
+- Komponen notifikasi mengambang dengan penghitung waktu penutupan otomatis dan tombol tutup mandiri tanpa menutupi navigasi.
+- Mekanisme pencegahan pengiriman ganda pada seluruh formulir pembuatan tautan, pengubahan data, dan autentikasi.
+- Pesan galat validasi kontekstual langsung di bawah setiap kolom isian formulir dengan batas visual penanda kesalahan yang kontras.
+- Atribut aksesibilitas pembaca layar pada tombol penutup dialog dan cincin fokus kontras pada seluruh kontrol interaktif.
+
+### Diubah
+- Standardisasi teks tombol aksi menggunakan pola kata kerja aktif dan objek spesifik.
+- Penyesuaian tombol autentikasi dan kontrol tabel menggunakan istilah baku definitif Login, Logout, Filter, dan Reset.
+- Pembersihan teks antarmuka dari simbol garis miring dan tanda kurung sesuai panduan penulisan baku.
+- Pembaruan tampilan kosong menjadi lebih deklaratif dan informatif dengan panduan tindakan lanjutan.
+
 ## [1.0.0] - 2026-10-27
 
 ### Keamanan

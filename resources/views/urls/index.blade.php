@@ -24,14 +24,20 @@
             @csrf
             <div class="md:col-span-5">
                 <label for="quick_original_url" class="block text-xs font-semibold text-slate-700 mb-1">URL Tujuan Lengkap</label>
-                <input type="url" id="quick_original_url" name="original_url" required value="{{ old('original_url') }}" placeholder="https://sinjaikab.go.id/berita-resmi" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                <input type="url" id="quick_original_url" name="original_url" required value="{{ old('original_url') }}" placeholder="https://sinjaikab.go.id/berita-resmi" class="block h-11 w-full rounded-lg border {{ $errors->has('original_url') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
+                @error('original_url')
+                    <p class="mt-1 text-[11px] font-medium text-rose-600">{{ $message }}</p>
+                @enderror
             </div>
             <div class="md:col-span-4">
                 <label for="quick_title" class="block text-xs font-semibold text-slate-700 mb-1">Judul Tautan</label>
-                <input type="text" id="quick_title" name="title" required value="{{ old('title') }}" placeholder="Pengumuman Beasiswa 2026" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                <input type="text" id="quick_title" name="title" required value="{{ old('title') }}" placeholder="Pengumuman Beasiswa 2026" class="block h-11 w-full rounded-lg border {{ $errors->has('title') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
+                @error('title')
+                    <p class="mt-1 text-[11px] font-medium text-rose-600">{{ $message }}</p>
+                @enderror
             </div>
             <div class="md:col-span-3">
-                <button type="submit" class="inline-flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                <button type="submit" data-loading-text="Menyimpan..." class="inline-flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                     Singkatkan Tautan
                 </button>
             </div>
@@ -42,14 +48,14 @@
     <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
         <form method="GET" action="{{ route('urls.index') }}" class="flex flex-col sm:flex-row items-center gap-3">
             <div class="relative w-full flex-1">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul, slug, atau URL tujuan" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Ketik judul, slug, atau tautan tujuan" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
             </div>
             <div class="flex w-full sm:w-auto items-center gap-2">
-                <button type="submit" class="inline-flex h-11 flex-1 sm:flex-initial items-center justify-center rounded-lg bg-slate-900 px-5 text-xs font-semibold text-white transition hover:bg-slate-800 focus:outline-hidden">
+                <button type="submit" class="inline-flex h-11 flex-1 sm:flex-initial items-center justify-center rounded-lg bg-slate-900 px-5 text-xs font-semibold text-white transition hover:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-slate-400 focus:ring-offset-2">
                     Filter
                 </button>
                 @if(request('search'))
-                    <a href="{{ route('urls.index') }}" class="inline-flex h-11 flex-1 sm:flex-initial items-center justify-center rounded-lg border border-slate-300 bg-white px-5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-hidden">
+                    <a href="{{ route('urls.index') }}" class="inline-flex h-11 flex-1 sm:flex-initial items-center justify-center rounded-lg border border-slate-300 bg-white px-5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-slate-400 focus:ring-offset-2">
                         Reset
                     </a>
                 @endif
@@ -118,20 +124,20 @@
                     <!-- Baris Aksi Pendukung -->
                     <div class="mt-4 flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-100">
                         <div class="flex items-center gap-2">
-                            <a href="{{ route('urls.qr', ['url' => $url->id, 'download' => 1]) }}" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
-                                Unduh QR Code
+                            <a href="{{ route('urls.qr', ['url' => $url->id, 'download' => 1]) }}" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                                Unduh Kode QR
                             </a>
                         </div>
 
                         <div class="flex items-center gap-2">
-                            <button type="button" onclick="openEditModal({{ json_encode($url) }})" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
-                                Ubah Data
+                            <button type="button" onclick="openEditModal({{ json_encode($url) }})" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                                Ubah Tautan
                             </button>
 
                             <form method="POST" action="{{ route('urls.destroy', $url->id) }}" onsubmit="return confirm('Hapus tautan ini? Pengalihan melalui alamat pendek ini akan terhenti secara permanen.');" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="inline-flex h-10 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 px-3.5 text-xs font-semibold text-rose-700 hover:bg-rose-100">
+                                <button type="submit" data-loading-text="Menghapus..." class="inline-flex h-10 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 px-3.5 text-xs font-semibold text-rose-700 hover:bg-rose-100 focus:outline-hidden focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">
                                     Hapus Tautan
                                 </button>
                             </form>
@@ -154,7 +160,7 @@
     <div class="w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-xl">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 class="text-sm font-bold text-slate-900">Buat Tautan Pendek dengan Kustom Slug</h3>
-            <button type="button" onclick="document.getElementById('modal-create-url').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-lg leading-none">&times;</button>
+            <button type="button" onclick="document.getElementById('modal-create-url').classList.add('hidden')" aria-label="Tutup dialog" class="text-slate-400 hover:text-slate-600 text-lg leading-none p-1 focus:outline-hidden focus:ring-2 focus:ring-slate-400 rounded">&times;</button>
         </div>
 
         <form method="POST" action="{{ route('urls.store') }}" class="mt-4 space-y-4">
@@ -163,32 +169,41 @@
             <div>
                 <label for="create_title" class="block text-xs font-semibold text-slate-700">Judul Tautan</label>
                 <div class="mt-1">
-                    <input type="text" id="create_title" name="title" required value="{{ old('title') }}" placeholder="Pengumuman Seleksi Beasiswa Sinjai 2026" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                    <input type="text" id="create_title" name="title" required value="{{ old('title') }}" placeholder="Pengumuman Seleksi Beasiswa Sinjai 2026" class="block h-11 w-full rounded-lg border {{ $errors->has('title') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
                 </div>
+                @error('title')
+                    <p class="mt-1 text-[11px] font-medium text-rose-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <div>
                 <label for="create_original_url" class="block text-xs font-semibold text-slate-700">URL Tujuan Lengkap</label>
                 <div class="mt-1">
-                    <input type="url" id="create_original_url" name="original_url" required value="{{ old('original_url') }}" placeholder="https://sinjaikab.go.id/berita/pengumuman-seleksi" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                    <input type="url" id="create_original_url" name="original_url" required value="{{ old('original_url') }}" placeholder="https://sinjaikab.go.id/berita/pengumuman-seleksi" class="block h-11 w-full rounded-lg border {{ $errors->has('original_url') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
                 </div>
-                <p class="mt-1 text-[11px] text-slate-500">Wajib diawali https:// dan dilarang mengarahkan ke berkas unduhan program berbahaya</p>
+                <p class="mt-1 text-[11px] text-slate-500">Wajib diawali protokol tautan web https dan dilarang mengarahkan ke berkas unduhan berbahaya</p>
+                @error('original_url')
+                    <p class="mt-1 text-[11px] font-medium text-rose-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <div>
                 <label for="create_short_code" class="block text-xs font-semibold text-slate-700">Kustom Slug Tautan</label>
                 <div class="mt-1 flex rounded-lg shadow-xs">
                     <span class="inline-flex items-center rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 px-3 text-xs text-slate-500">s.sinjaikab.go.id/</span>
-                    <input type="text" id="create_short_code" name="short_code" value="{{ old('short_code') }}" placeholder="beasiswa-2026" class="block h-11 w-full rounded-r-lg border border-slate-300 px-3 text-xs text-slate-900 focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                    <input type="text" id="create_short_code" name="short_code" value="{{ old('short_code') }}" placeholder="beasiswa-2026" class="block h-11 w-full rounded-r-lg border {{ $errors->has('short_code') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 focus:outline-hidden focus:ring-1">
                 </div>
                 <p class="mt-1 text-[11px] text-slate-500">Kosongkan kolom ini jika ingin sistem menghasilkan kode acak secara otomatis</p>
+                @error('short_code')
+                    <p class="mt-1 text-[11px] font-medium text-rose-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-                <button type="button" onclick="document.getElementById('modal-create-url').classList.add('hidden')" class="inline-flex h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                <button type="button" onclick="document.getElementById('modal-create-url').classList.add('hidden')" class="inline-flex h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-slate-400">
                     Batal
                 </button>
-                <button type="submit" class="inline-flex h-11 items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white hover:bg-blue-700">
+                <button type="submit" data-loading-text="Menyimpan..." class="inline-flex h-11 items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                     Simpan Tautan
                 </button>
             </div>
@@ -201,7 +216,7 @@
     <div class="w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-xl">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 class="text-sm font-bold text-slate-900">Ubah Data Tautan Pendek</h3>
-            <button type="button" onclick="document.getElementById('modal-edit-url').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-lg leading-none">&times;</button>
+            <button type="button" onclick="document.getElementById('modal-edit-url').classList.add('hidden')" aria-label="Tutup dialog" class="text-slate-400 hover:text-slate-600 text-lg leading-none p-1 focus:outline-hidden focus:ring-2 focus:ring-slate-400 rounded">&times;</button>
         </div>
 
         <form id="form-edit-url" method="POST" action="" class="mt-4 space-y-4">
@@ -233,10 +248,10 @@
             </div>
 
             <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-                <button type="button" onclick="document.getElementById('modal-edit-url').classList.add('hidden')" class="inline-flex h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                <button type="button" onclick="document.getElementById('modal-edit-url').classList.add('hidden')" class="inline-flex h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-slate-400">
                     Batal
                 </button>
-                <button type="submit" class="inline-flex h-11 items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white hover:bg-blue-700">
+                <button type="submit" data-loading-text="Menyimpan..." class="inline-flex h-11 items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                     Simpan Perubahan
                 </button>
             </div>

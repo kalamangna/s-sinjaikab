@@ -53,7 +53,7 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                    <button type="submit" data-loading-text="Memproses Login..." class="flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                         Login
                     </button>
                 </div>
@@ -72,5 +72,27 @@
             </a>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    if (this.dataset.submitting === 'true') {
+                        e.preventDefault();
+                        return;
+                    }
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        this.dataset.submitting = 'true';
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                        const loadingLabel = submitBtn.dataset.loadingText || 'Memproses...';
+                        submitBtn.textContent = loadingLabel;
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
