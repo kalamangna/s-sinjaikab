@@ -12,6 +12,7 @@ Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan for
 - Pengujian otomatis untuk verifikasi penolakan URL tujuan IP privat dan ketersediaan header keamanan HTTP pada `ShortUrlTest`.
 
 ### Diubah
+- Penyesuaian zona waktu bawaan aplikasi menjadi Waktu Indonesia Tengah (WITA / `Asia/Makassar` UTC+8) pada konfigurasi sistem, runtime Carbon, dan tampilan tabel log aktivitas administrator.
 - Penyertaan direktori kompilasi aset frontend `public/build/` ke dalam kontrol versi repositori untuk memudahkan penyelarasan otomatis di server produksi melalui `git pull`.
 - Penambahan retensi parameter kueri (`withQueryString`) pada penomoran halaman riwayat log administrator dan tautan pendek.
 - Penanganan potensi peringatan *deprecation* pada fungsi manipulasi teks di model `ActivityLog`.

@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         App::setLocale('id');
         Carbon::setLocale('id');
+        date_default_timezone_set(config('app.timezone', 'Asia/Makassar'));
         Paginator::defaultView('vendor.pagination.tailwind');
         Paginator::defaultSimpleView('vendor.pagination.tailwind');
     }

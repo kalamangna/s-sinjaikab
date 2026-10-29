@@ -36,7 +36,7 @@
                         @foreach($logs as $log)
                             <tr class="hover:bg-slate-50/75 transition">
                                 <td class="py-3.5 px-4 whitespace-nowrap font-medium text-slate-900">
-                                    {{ $log->created_at ? $log->created_at->translatedFormat('d M Y, H:i:s') : '-' }}
+                                    {{ $log->created_at ? $log->created_at->translatedFormat('d M Y, H:i:s') . ' WITA' : '-' }}
                                 </td>
                                 <td class="py-3.5 px-4 whitespace-nowrap">
                                     @if($log->user)
