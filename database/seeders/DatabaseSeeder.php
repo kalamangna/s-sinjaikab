@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'kalamangna',
                 'password' => Hash::make('Syazani'),
                 'role' => 'admin',
-                'department' => 'Dinas Komunikasi Informatika dan Persandian',
+                'department' => null,
                 'is_active' => true,
             ]
         );

@@ -42,14 +42,14 @@ class UrlShortenerService
     public function validateDestinationUrl(string $url, ?string $requestHost = null): void
     {
         if (! filter_var($url, FILTER_VALIDATE_URL)) {
-            throw new InvalidArgumentException('Format URL tujuan tidak valid.');
+            throw new InvalidArgumentException('URL tidak valid.');
         }
 
         $parsed = parse_url($url);
         $scheme = strtolower($parsed['scheme'] ?? '');
 
         if (! in_array($scheme, ['https', 'http'], true)) {
-            throw new InvalidArgumentException('URL tujuan harus menggunakan protokol HTTP atau HTTPS.');
+            throw new InvalidArgumentException('Gunakan protokol http atau https.');
         }
 
         $host = strtolower($parsed['host'] ?? '');
@@ -66,7 +66,7 @@ class UrlShortenerService
         }
 
         if (in_array($host, $blockedHosts, true)) {
-            throw new InvalidArgumentException('URL tujuan tidak boleh mengarah ke domain shortener ini.');
+            throw new InvalidArgumentException('URL tujuan tidak diizinkan.');
         }
 
         // Prevent dangerous files
@@ -74,7 +74,7 @@ class UrlShortenerService
         $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
         if (in_array($extension, self::DANGEROUS_EXTENSIONS, true)) {
-            throw new InvalidArgumentException('URL tujuan mengandung tautan berkas berbahaya yang dilarang.');
+            throw new InvalidArgumentException('Tipe berkas dilarang.');
         }
     }
 

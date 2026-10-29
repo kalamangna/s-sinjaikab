@@ -3,45 +3,45 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login Akun ENIKDA - s.sinjaikab.go.id</title>
-    <meta name="description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <title>Login - Pemkab Sinjai</title>
+    <meta name="description" content="Layanan link singkat dan kode QR resmi Pemerintah Kabupaten Sinjai.">
     <meta name="author" content="Diskominfo-SP Sinjai">
 
     <meta property="og:type" content="website">
     <meta property="og:locale" content="id_ID">
-    <meta property="og:site_name" content="Pemerintah Kabupaten Sinjai">
+    <meta property="og:site_name" content="Link Shortener - Pemkab Sinjai">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="Login Akun ENIKDA - s.sinjaikab.go.id">
-    <meta property="og:description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta property="og:title" content="Login - Pemkab Sinjai">
+    <meta property="og:description" content="Layanan link singkat dan kode QR resmi Pemerintah Kabupaten Sinjai.">
     <meta property="og:image" content="{{ asset('images/meta.png') }}">
     <meta property="og:image:secure_url" content="{{ asset('images/meta.png') }}">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1640">
     <meta property="og:image:height" content="924">
-    <meta property="og:image:alt" content="Portal Resmi Pemerintah Kabupaten Sinjai">
+    <meta property="og:image:alt" content="Link Shortener - Pemkab Sinjai">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ url()->current() }}">
-    <meta name="twitter:title" content="Login Akun ENIKDA - s.sinjaikab.go.id">
-    <meta name="twitter:description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta name="twitter:title" content="Login - Pemkab Sinjai">
+    <meta name="twitter:description" content="Layanan link singkat dan kode QR resmi Pemerintah Kabupaten Sinjai.">
     <meta name="twitter:image" content="{{ asset('images/meta.png') }}">
-    <meta name="twitter:image:alt" content="Portal Resmi Pemerintah Kabupaten Sinjai">
+    <meta name="twitter:image:alt" content="Link Shortener - Pemkab Sinjai">
 
     <link rel="icon" type="image/png" href="{{ asset('images/logo-sinjai.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="flex min-h-full flex-col justify-center py-12 px-4 sm:px-6 font-sans antialiased text-slate-800">
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+<body class="flex min-h-full flex-col justify-center py-12 px-4 sm:px-6 md:px-8 font-sans antialiased text-slate-800">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md md:max-w-sm">
         <div class="text-center">
             <a href="{{ route('home') }}" class="inline-flex rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                 <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-11 w-auto object-contain">
             </a>
-            <h1 class="mt-4 text-xl font-bold tracking-tight text-slate-900">
+            <h1 class="mt-4 text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
                 Login Akun ENIKDA
             </h1>
         </div>
 
-        <div class="mt-6 rounded-xl border border-slate-200 bg-white p-6 shadow-xs sm:p-7">
+        <div class="mt-6 rounded-xl border border-slate-200 bg-white p-5 sm:p-7 md:p-8 shadow-xs">
             @if(session('error') || $errors->any())
                 <div class="mb-4 flex items-start gap-2.5 rounded-lg border border-rose-200 bg-rose-50 p-3 text-xs text-rose-800" role="alert">
                     <svg class="h-4 w-4 text-rose-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

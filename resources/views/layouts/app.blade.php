@@ -4,29 +4,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Pemendek Tautan') - s.sinjaikab.go.id</title>
-    <meta name="description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <title>@yield('title', 'Link Shortener') - Pemkab Sinjai</title>
+    <meta name="description" content="Layanan link singkat dan kode QR resmi Pemerintah Kabupaten Sinjai.">
     <meta name="author" content="Diskominfo-SP Sinjai">
 
     <meta property="og:type" content="website">
     <meta property="og:locale" content="id_ID">
-    <meta property="og:site_name" content="Pemerintah Kabupaten Sinjai">
+    <meta property="og:site_name" content="Link Shortener - Pemkab Sinjai">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('title', 'Pemendek Tautan') - s.sinjaikab.go.id">
-    <meta property="og:description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta property="og:title" content="@yield('title', 'Link Shortener') - Pemkab Sinjai">
+    <meta property="og:description" content="Layanan link singkat dan kode QR resmi Pemerintah Kabupaten Sinjai.">
     <meta property="og:image" content="{{ asset('images/meta.png') }}">
     <meta property="og:image:secure_url" content="{{ asset('images/meta.png') }}">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1640">
     <meta property="og:image:height" content="924">
-    <meta property="og:image:alt" content="Portal Resmi Pemerintah Kabupaten Sinjai">
+    <meta property="og:image:alt" content="Link Shortener - Pemkab Sinjai">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ url()->current() }}">
-    <meta name="twitter:title" content="@yield('title', 'Pemendek Tautan') - s.sinjaikab.go.id">
-    <meta name="twitter:description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta name="twitter:title" content="@yield('title', 'Link Shortener') - Pemkab Sinjai">
+    <meta name="twitter:description" content="Layanan link singkat dan kode QR resmi Pemerintah Kabupaten Sinjai.">
     <meta name="twitter:image" content="{{ asset('images/meta.png') }}">
-    <meta name="twitter:image:alt" content="Portal Resmi Pemerintah Kabupaten Sinjai">
+    <meta name="twitter:image:alt" content="Link Shortener - Pemkab Sinjai">
 
     <link rel="icon" type="image/png" href="{{ asset('images/logo-sinjai.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -35,22 +35,22 @@
     <header class="sticky top-0 z-40 border-b border-slate-200 bg-white shadow-xs">
         <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <div class="flex items-center gap-4">
-                <a href="{{ route('urls.index') }}" class="flex items-center gap-3 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                <a href="{{ route('urls.index') }}" class="flex items-center gap-2.5 sm:gap-3 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                     <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-8 sm:h-9 w-auto object-contain">
-                    <div class="flex flex-col text-left">
-                        <span class="text-sm font-bold tracking-tight text-slate-900 sm:text-base">s.sinjaikab.go.id</span>
-                        <span class="text-[11px] text-slate-500">Pemerintah Kabupaten Sinjai</span>
+                    <div class="flex flex-col text-left leading-tight">
+                        <span class="text-sm font-bold tracking-tight text-slate-900">Link Shortener</span>
+                        <span class="text-xs font-medium text-slate-500">Pemkab Sinjai</span>
                     </div>
                 </a>
             </div>
 
             <div class="flex items-center gap-3">
-                <div class="hidden text-right sm:block">
-                    <p class="text-xs font-semibold text-slate-800">{{ auth()->user()->name }}</p>
-                    <p class="text-xs text-slate-500">{{ auth()->user()->department ?? 'Administrator' }}</p>
+                <div class="hidden text-right sm:block max-w-xs md:max-w-sm truncate">
+                    <p class="text-xs font-semibold text-slate-800 truncate">{{ auth()->user()->name }}</p>
+                    <p class="text-xs text-slate-500 truncate">{{ auth()->user()->isAdmin() ? 'Administrator' : (auth()->user()->department ?? 'Pemerintah Kabupaten Sinjai') }}</p>
                 </div>
 
-                <form method="POST" action="{{ route('logout') }}" class="inline">
+                <form method="POST" action="{{ route('logout') }}" class="inline shrink-0">
                     @csrf
                     <button type="submit" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-red-600 focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                         Logout
@@ -61,7 +61,7 @@
     </header>
 
     <!-- Notifikasi Mengambang (Floating Toast) -->
-    <div id="toast-container" class="fixed top-20 right-4 sm:right-6 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none">
+    <div id="toast-container" class="fixed top-20 right-4 left-4 sm:left-auto sm:right-6 z-50 flex flex-col gap-2 sm:max-w-sm sm:w-full pointer-events-none">
         @if(session('success'))
             <div id="toast-success" class="pointer-events-auto flex items-start justify-between rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-900 shadow-lg transition-opacity duration-300" role="status">
                 <div class="flex items-start gap-3">
@@ -103,7 +103,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                     <div>
-                        <p class="text-xs font-bold text-rose-900">Periksa Kembali Isian</p>
+                        <p class="text-xs font-bold text-rose-900">Galat</p>
                         <ul class="mt-1 list-inside list-disc text-xs text-rose-800 space-y-0.5">
                             @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -139,11 +139,11 @@
             }
         }
 
-        // Salin Tautan Satu Ketukan Global
+        // Salin Link Satu Ketukan Global
         function copyShortLink(text, buttonElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = buttonElement.textContent;
-                buttonElement.textContent = 'Tautan Tersalin';
+                buttonElement.textContent = 'Link Tersalin';
                 buttonElement.classList.remove('text-slate-700', 'bg-white');
                 buttonElement.classList.add('text-emerald-700', 'bg-emerald-50', 'border-emerald-300');
 

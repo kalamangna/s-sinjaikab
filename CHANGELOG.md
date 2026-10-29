@@ -2,6 +2,19 @@
 
 Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan format [Keep a Changelog](https://keepachangelog.com/id/1.1.0/).
 
+## [1.4.0] - 2026-10-29
+
+### Diubah
+- Penggantian seluruh istilah antarmuka dari `tautan` menjadi `link` secara konsisten pada seluruh tampilan, kontroler, layanan, dan pengujian.
+- Penataan ulang hierarki dan proporsi *branding* `Link Shortener - Pemkab Sinjai` dengan ukuran judul dan subjudul yang seimbang di header.
+- Penyempurnaan tata letak responsif *mobile-first* dan *tablet* pada seluruh halaman:
+  - Penataan kartu link mobile dengan header satu baris terpadu dan bilah aksi dalam pola grid 2x2 simetris dengan target sentuh `h-10`.
+  - Penataan kartu ringkasan statistik menjadi 2 kolom berdampingan pada mobile untuk menghemat ruang vertikal.
+  - Form pencarian dan tombol filter responsif vertikal pada ponsel dan sejajar pada layar tablet dan desktop.
+  - Perbaikan wadah notifikasi mengambang agar tidak melampaui batas layar pada perangkat seluler sempit.
+  - Optimalisasi dialog modal dengan input kustom `min-w-0` guna mencegah luapan horizontal pada ponsel.
+- Penyesuaian informasi pembuat link pada kartu daftar untuk menampilkan nama pengguna dan OPD, serta menyembunyikan keterangan OPD khusus akun administrator.
+
 ## [1.3.0] - 2026-10-29
 
 ### Ditambahkan

@@ -1,6 +1,6 @@
 # Shortener Sinjaikab
 
-Layanan pemendek tautan web resmi Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id. Sistem ini menyediakan manajemen tautan untuk Organisasi Perangkat Daerah dan generator kode QR dinamis.
+Layanan pemendek link resmi Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id. Sistem ini menyediakan manajemen link untuk Organisasi Perangkat Daerah dan generator kode QR dinamis.
 
 ## Prasyarat Sistem
 

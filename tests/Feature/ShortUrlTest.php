@@ -54,7 +54,7 @@ class ShortUrlTest extends TestCase
 
         $response = $this->get('/nonaktif');
         $response->assertStatus(404);
-        $response->assertSee('Tautan Pendek Tidak Ditemukan');
+        $response->assertSee('Link Tidak Ditemukan');
     }
 
     public function test_opd_can_create_valid_short_url(): void

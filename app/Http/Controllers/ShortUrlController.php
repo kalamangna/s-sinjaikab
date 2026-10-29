@@ -53,12 +53,12 @@ class ShortUrlController extends Controller
             'original_url' => ['required', 'string', 'url', 'max:2048'],
             'short_code' => ['nullable', 'string', 'min:3', 'max:64', 'alpha_dash:ascii', 'unique:short_urls,short_code'],
         ], [
-            'original_url.required' => 'Alamat tujuan wajib diisi.',
-            'original_url.url' => 'Alamat tujuan tidak valid. Pastikan diawali http atau https.',
-            'short_code.min' => 'Kode tautan minimal 3 karakter.',
-            'short_code.max' => 'Kode tautan maksimal 64 karakter.',
-            'short_code.alpha_dash' => 'Kode tautan hanya boleh memuat huruf, angka, tanda strip, dan garis bawah.',
-            'short_code.unique' => 'Kode tautan sudah digunakan. Silakan gunakan kombinasi lain.',
+            'original_url.required' => 'URL tujuan wajib diisi.',
+            'original_url.url' => 'Format URL tidak valid.',
+            'short_code.min' => 'Minimal 3 karakter.',
+            'short_code.max' => 'Maksimal 64 karakter.',
+            'short_code.alpha_dash' => 'Hanya huruf, angka, strip.',
+            'short_code.unique' => 'Kode sudah digunakan.',
         ]);
 
         try {
@@ -72,7 +72,7 @@ class ShortUrlController extends Controller
         if ($shortCode) {
             $shortCode = Str::slug($shortCode);
             if ($service->isSlugReserved($shortCode)) {
-                return back()->withErrors(['short_code' => 'Kode tautan tersebut dicadangkan untuk kebutuhan sistem.'])->withInput();
+                return back()->withErrors(['short_code' => 'Kode tidak tersedia.'])->withInput();
             }
         } else {
             $shortCode = $service->generateUniqueCode();
@@ -85,7 +85,7 @@ class ShortUrlController extends Controller
             'is_active' => true,
         ]);
 
-        return redirect()->route('urls.index')->with('success', 'Tautan pendek berhasil dibuat.');
+        return redirect()->route('urls.index')->with('success', 'Link berhasil dibuat.');
     }
 
     /**
@@ -105,13 +105,13 @@ class ShortUrlController extends Controller
             'short_code' => ['required', 'string', 'min:3', 'max:64', 'alpha_dash:ascii', Rule::unique('short_urls', 'short_code')->ignore($url->id)],
             'is_active' => ['required', 'boolean'],
         ], [
-            'original_url.required' => 'Alamat tujuan wajib diisi.',
-            'original_url.url' => 'Alamat tujuan tidak valid. Pastikan diawali http atau https.',
-            'short_code.required' => 'Kode tautan wajib diisi.',
-            'short_code.min' => 'Kode tautan minimal 3 karakter.',
-            'short_code.max' => 'Kode tautan maksimal 64 karakter.',
-            'short_code.alpha_dash' => 'Kode tautan hanya boleh memuat huruf, angka, tanda strip, dan garis bawah.',
-            'short_code.unique' => 'Kode tautan sudah digunakan. Silakan gunakan kombinasi lain.',
+            'original_url.required' => 'URL tujuan wajib diisi.',
+            'original_url.url' => 'Format URL tidak valid.',
+            'short_code.required' => 'Kode link wajib diisi.',
+            'short_code.min' => 'Minimal 3 karakter.',
+            'short_code.max' => 'Maksimal 64 karakter.',
+            'short_code.alpha_dash' => 'Hanya huruf, angka, strip.',
+            'short_code.unique' => 'Kode sudah digunakan.',
         ]);
 
         try {
@@ -123,7 +123,7 @@ class ShortUrlController extends Controller
         $shortCode = Str::slug($request->input('short_code'));
 
         if ($shortCode !== $url->short_code && $service->isSlugReserved($shortCode)) {
-            return back()->withErrors(['short_code' => 'Kode tautan tersebut dicadangkan untuk kebutuhan sistem.'])->withInput();
+            return back()->withErrors(['short_code' => 'Kode tidak tersedia.'])->withInput();
         }
 
         $url->update([
@@ -133,7 +133,7 @@ class ShortUrlController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
-        return redirect()->route('urls.index')->with('success', 'Perubahan tautan berhasil disimpan.');
+        return redirect()->route('urls.index')->with('success', 'Perubahan berhasil disimpan.');
     }
 
     /**
@@ -149,7 +149,7 @@ class ShortUrlController extends Controller
 
         $url->delete();
 
-        return redirect()->route('urls.index')->with('success', 'Tautan pendek berhasil dihapus.');
+        return redirect()->route('urls.index')->with('success', 'Link berhasil dihapus.');
     }
 
     /**

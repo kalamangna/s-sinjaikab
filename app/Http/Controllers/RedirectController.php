@@ -27,7 +27,7 @@ class RedirectController extends Controller
 
         if (! $shortUrl) {
             return response()->view('errors.404', [
-                'message' => 'Tautan pendek tidak ditemukan atau telah dinonaktifkan.',
+                'message' => 'Link tidak ditemukan.',
             ], 404);
         }
 
