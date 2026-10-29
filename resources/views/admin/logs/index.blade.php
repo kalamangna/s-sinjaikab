@@ -7,7 +7,7 @@
     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h1 class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">Log Aktivitas</h1>
-            <p class="text-xs text-slate-500 mt-1">Rekaman kronologis aktivitas operasional pengguna pada sistem</p>
+            <p class="text-xs text-slate-500 mt-1">Riwayat aktivitas pengguna sistem</p>
         </div>
 
         <div class="text-xs text-slate-500 font-medium">

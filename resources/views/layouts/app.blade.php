@@ -28,7 +28,7 @@
     <meta name="twitter:image" content="{{ asset('images/meta.png') }}">
     <meta name="twitter:image:alt" content="Link Shortener - Pemkab Sinjai">
 
-    <link rel="icon" type="image/png" href="{{ asset('images/logo-sinjai.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="flex min-h-full flex-col font-sans text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
@@ -36,7 +36,7 @@
         <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <div class="flex items-center gap-6">
                 <a href="{{ route('urls.index') }}" class="flex items-center gap-2.5 sm:gap-3 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 shrink-0">
-                    <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-8 sm:h-9 w-auto object-contain shrink-0">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo Kabupaten Sinjai" class="h-8 sm:h-9 w-auto object-contain shrink-0">
                     <div class="flex flex-col text-left leading-tight shrink-0">
                         <span class="text-sm font-bold tracking-tight text-slate-900">Link Shortener</span>
                         <span class="text-xs font-medium text-slate-500">Pemkab Sinjai</span>
@@ -45,10 +45,16 @@
 
                 @if(auth()->check() && auth()->user()->isAdmin())
                     <nav class="hidden md:flex items-center gap-1.5" aria-label="Navigasi Utama">
-                        <a href="{{ route('urls.index') }}" class="inline-flex h-9 items-center rounded-lg px-3.5 text-xs font-semibold transition {{ request()->routeIs('urls.*') ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                        <a href="{{ route('urls.index') }}" class="inline-flex h-9 items-center gap-1.5 rounded-lg px-3.5 text-xs font-semibold transition {{ request()->routeIs('urls.*') ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                            <svg class="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                            </svg>
                             Kelola Link
                         </a>
-                        <a href="{{ route('admin.logs.index') }}" class="inline-flex h-9 items-center rounded-lg px-3.5 text-xs font-semibold transition {{ request()->routeIs('admin.logs.*') ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                        <a href="{{ route('admin.logs.index') }}" class="inline-flex h-9 items-center gap-1.5 rounded-lg px-3.5 text-xs font-semibold transition {{ request()->routeIs('admin.logs.*') ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                            <svg class="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
                             Log Aktivitas
                         </a>
                     </nav>
@@ -63,7 +69,10 @@
 
                 <form method="POST" action="{{ route('logout') }}" class="inline shrink-0">
                     @csrf
-                    <button type="submit" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-red-600 focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                    <button type="submit" class="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-rose-600 focus:outline-hidden focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">
+                        <svg class="h-3.5 w-3.5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
                         Logout
                     </button>
                 </form>
@@ -73,10 +82,16 @@
         @if(auth()->check() && auth()->user()->isAdmin())
             <div class="border-t border-slate-200 bg-slate-50/80 px-4 py-2 md:hidden">
                 <nav class="grid grid-cols-2 gap-2" aria-label="Navigasi Ponsel">
-                    <a href="{{ route('urls.index') }}" class="inline-flex h-10 items-center justify-center rounded-lg px-3 text-xs font-semibold transition {{ request()->routeIs('urls.*') ? 'bg-white text-blue-700 shadow-xs ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-white hover:text-slate-900' }}">
+                    <a href="{{ route('urls.index') }}" class="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg px-3 text-xs font-semibold transition {{ request()->routeIs('urls.*') ? 'bg-white text-blue-700 shadow-xs ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-white hover:text-slate-900' }}">
+                        <svg class="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
                         Kelola Link
                     </a>
-                    <a href="{{ route('admin.logs.index') }}" class="inline-flex h-10 items-center justify-center rounded-lg px-3 text-xs font-semibold transition {{ request()->routeIs('admin.logs.*') ? 'bg-white text-blue-700 shadow-xs ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-white hover:text-slate-900' }}">
+                    <a href="{{ route('admin.logs.index') }}" class="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg px-3 text-xs font-semibold transition {{ request()->routeIs('admin.logs.*') ? 'bg-white text-blue-700 shadow-xs ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-white hover:text-slate-900' }}">
+                        <svg class="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
                         Log Aktivitas
                     </a>
                 </nav>
@@ -119,27 +134,6 @@
                 </button>
             </div>
         @endif
-
-        @if($errors->any())
-            <div id="toast-error" class="pointer-events-auto flex items-start justify-between rounded-xl border border-rose-200 bg-rose-50 p-4 text-rose-900 shadow-lg transition-opacity duration-300" role="alert">
-                <div class="flex items-start gap-3">
-                    <svg class="h-5 w-5 text-rose-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    <div>
-                        <p class="text-xs font-bold text-rose-900">Galat</p>
-                        <ul class="mt-1 list-inside list-disc text-xs text-rose-800 space-y-0.5">
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-                <button type="button" onclick="dismissToast('toast-error')" aria-label="Tutup pemberitahuan kendala" class="text-rose-700 hover:text-rose-900 text-lg leading-none p-1 focus:outline-hidden focus:ring-2 focus:ring-rose-500 rounded">
-                    &times;
-                </button>
-            </div>
-        @endif
     </div>
 
     <main class="flex-1 pb-12 pt-6">
@@ -166,13 +160,18 @@
         // Salin Link Satu Ketukan Global
         function copyShortLink(text, buttonElement) {
             navigator.clipboard.writeText(text).then(() => {
-                const originalText = buttonElement.textContent;
-                buttonElement.textContent = 'Link Tersalin';
+                const originalHtml = buttonElement.innerHTML;
+                buttonElement.innerHTML = `
+                    <svg class="h-3.5 w-3.5 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Link Tersalin</span>
+                `;
                 buttonElement.classList.remove('text-slate-700', 'bg-white');
                 buttonElement.classList.add('text-emerald-700', 'bg-emerald-50', 'border-emerald-300');
 
                 setTimeout(() => {
-                    buttonElement.textContent = originalText;
+                    buttonElement.innerHTML = originalHtml;
                     buttonElement.classList.remove('text-emerald-700', 'bg-emerald-50', 'border-emerald-300');
                     buttonElement.classList.add('text-slate-700', 'bg-white');
                 }, 2000);

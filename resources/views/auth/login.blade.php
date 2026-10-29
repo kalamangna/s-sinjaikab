@@ -27,14 +27,14 @@
     <meta name="twitter:image" content="{{ asset('images/meta.png') }}">
     <meta name="twitter:image:alt" content="Link Shortener - Pemkab Sinjai">
 
-    <link rel="icon" type="image/png" href="{{ asset('images/logo-sinjai.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="flex min-h-full flex-col justify-center py-12 px-4 sm:px-6 md:px-8 font-sans antialiased text-slate-800">
     <div class="sm:mx-auto sm:w-full sm:max-w-md md:max-w-sm">
         <div class="text-center">
             <a href="{{ route('home') }}" class="inline-flex rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
-                <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-11 w-auto object-contain">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo Kabupaten Sinjai" class="h-11 w-auto object-contain">
             </a>
             <h1 class="mt-4 text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
                 Login Akun ENIKDA
@@ -63,13 +63,13 @@
 
                 <div>
                     <label for="identifier" class="block text-xs font-semibold text-slate-700 mb-1">NIP</label>
-                    <input id="identifier" name="identifier" type="text" autocomplete="username" required autofocus value="{{ old('identifier') }}" placeholder="18 digit NIP" class="block h-11 w-full rounded-lg border {{ $errors->has('identifier') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
+                    <input id="identifier" name="identifier" type="text" autocomplete="username" required autofocus value="{{ old('identifier') }}" placeholder="18 digit NIP" class="block h-11 w-full rounded-lg border {{ $errors->has('identifier') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-base sm:text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
                 </div>
 
                 <div>
                     <label for="password" class="block text-xs font-semibold text-slate-700 mb-1">Password</label>
                     <div class="relative">
-                        <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••" class="block h-11 w-full rounded-lg border {{ $errors->has('password') || $errors->has('identifier') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} pl-3 pr-11 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
+                        <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••" class="block h-11 w-full rounded-lg border {{ $errors->has('password') || $errors->has('identifier') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} pl-3 pr-11 text-base sm:text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
                         <button type="button" id="togglePassword" aria-label="Tampilkan password" class="absolute inset-y-0 right-0 flex h-11 w-11 items-center justify-center text-slate-400 hover:text-slate-600 focus:outline-hidden focus:text-blue-600">
                             <svg id="eyeIcon" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -83,7 +83,10 @@
                 </div>
 
                 <div class="pt-1">
-                    <button type="submit" data-loading-text="Memverifikasi..." class="flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                    <button type="submit" data-loading-text="Memverifikasi..." class="flex h-11 w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                        <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                        </svg>
                         Login
                     </button>
                 </div>
@@ -91,7 +94,10 @@
         </div>
 
         <div class="mt-5 text-center">
-            <a href="{{ route('home') }}" class="text-xs font-medium text-slate-500 hover:text-slate-800 transition">
+            <a href="{{ route('home') }}" class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-slate-800 transition">
+                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
                 Kembali ke Beranda
             </a>
         </div>

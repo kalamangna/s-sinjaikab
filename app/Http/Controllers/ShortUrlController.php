@@ -20,7 +20,7 @@ class ShortUrlController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(Request $request): View|RedirectResponse
     {
         $user = $request->user();
         $query = ShortUrl::with('user');
@@ -32,7 +32,11 @@ class ShortUrlController extends Controller
         $totalUrls = (clone $query)->count();
         $totalClicks = (int) (clone $query)->sum('clicks_count');
 
-        if ($search = $request->input('search')) {
+        if ($request->has('search') && trim((string) $request->input('search')) === '') {
+            return redirect()->route('urls.index');
+        }
+
+        if ($search = trim((string) $request->input('search', ''))) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                     ->orWhere('short_code', 'like', "%{$search}%")
@@ -63,10 +67,10 @@ class ShortUrlController extends Controller
         ], [
             'original_url.required' => 'URL tujuan wajib diisi.',
             'original_url.url' => 'Format URL tidak valid.',
-            'short_code.min' => 'Minimal 3 karakter.',
-            'short_code.max' => 'Maksimal 64 karakter.',
+            'short_code.min' => 'Kode link kustom minimal 3 karakter.',
+            'short_code.max' => 'Kode link kustom maksimal 64 karakter.',
             'short_code.alpha_dash' => 'Hanya huruf, angka, strip, dan garis bawah.',
-            'short_code.unique' => 'Kode sudah digunakan.',
+            'short_code.unique' => 'Kode link kustom sudah digunakan.',
         ]);
 
         try {
@@ -81,11 +85,11 @@ class ShortUrlController extends Controller
             $shortCode = trim((string) $shortCode);
 
             if ($service->isSlugReserved($shortCode)) {
-                return back()->withErrors(['short_code' => 'Kode tidak tersedia.'])->withInput();
+                return back()->withErrors(['short_code' => 'Kode link kustom tidak dapat digunakan.'])->withInput();
             }
 
             if (ShortUrl::whereRaw('LOWER(short_code) = ?', [strtolower($shortCode)])->exists()) {
-                return back()->withErrors(['short_code' => 'Kode sudah digunakan.'])->withInput();
+                return back()->withErrors(['short_code' => 'Kode link kustom sudah digunakan.'])->withInput();
             }
         } else {
             $shortCode = $service->generateUniqueCode();
@@ -129,10 +133,10 @@ class ShortUrlController extends Controller
             'original_url.required' => 'URL tujuan wajib diisi.',
             'original_url.url' => 'Format URL tidak valid.',
             'short_code.required' => 'Kode link wajib diisi.',
-            'short_code.min' => 'Minimal 3 karakter.',
-            'short_code.max' => 'Maksimal 64 karakter.',
+            'short_code.min' => 'Kode link kustom minimal 3 karakter.',
+            'short_code.max' => 'Kode link kustom maksimal 64 karakter.',
             'short_code.alpha_dash' => 'Hanya huruf, angka, strip, dan garis bawah.',
-            'short_code.unique' => 'Kode sudah digunakan.',
+            'short_code.unique' => 'Kode link kustom sudah digunakan.',
         ]);
 
         try {
@@ -145,11 +149,11 @@ class ShortUrlController extends Controller
 
         if ($shortCode !== $url->short_code) {
             if ($service->isSlugReserved($shortCode)) {
-                return back()->withErrors(['short_code' => 'Kode tidak tersedia.'])->withInput();
+                return back()->withErrors(['short_code' => 'Kode link kustom tidak dapat digunakan.'])->withInput();
             }
 
             if (ShortUrl::whereRaw('LOWER(short_code) = ?', [strtolower($shortCode)])->where('id', '!=', $url->id)->exists()) {
-                return back()->withErrors(['short_code' => 'Kode sudah digunakan.'])->withInput();
+                return back()->withErrors(['short_code' => 'Kode link kustom sudah digunakan.'])->withInput();
             }
         }
 

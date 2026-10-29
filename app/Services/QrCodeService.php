@@ -15,7 +15,7 @@ class QrCodeService
 
     public function __construct(?string $logoPath = null)
     {
-        $this->logoPath = $logoPath ?? public_path('images/logo-sinjai.png');
+        $this->logoPath = $logoPath ?? public_path('images/logo.png');
     }
 
     /**

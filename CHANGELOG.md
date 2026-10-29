@@ -2,6 +2,28 @@
 
 Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan format [Keep a Changelog](https://keepachangelog.com/id/1.1.0/).
 
+## [1.7.0] - 2026-10-29
+
+### Ditambahkan
+- Penerapan ikon fungsional terukur pada seluruh tombol tindakan utama (`Tambah Link`, `Salin Link`, `Lihat Kode QR`, `Ubah Link`, `Hapus Link`, `Unduh Kode QR`, `Filter`, `Reset`, `Login`, dan `Logout`) serta ikon penanda tautan eksternal pada tombol `Portal Sinjai`.
+- Umpan balik visual interaktif pada fungsi `copyShortLink` yang menampilkan ikon centang hijau dan teks `Link Tersalin` selama 2 detik sebelum kembali ke kondisi awal.
+- Aset logo resmi berformat persegi proporsional 512×512 px (`public/images/logo.png`) dan metadata OpenGraph (`public/images/meta.png`) untuk mengatasi kendala favicon pipih/gepeng.
+- Pengujian otomatis penanganan validasi duplikat link kustom pada `ShortUrlTest`.
+
+### Diubah
+- Penyelarasan antarmuka halaman galat 404 (`resources/views/errors/404.blade.php`) dengan menyertakan bilah navigasi header resmi Pemkab Sinjai, bilah kaki standar, tombol aksi ramah jemari berukuran `h-11`, dan eliminasi redundansi teks pesan galat.
+- Pencegahan perilaku *auto-zoom* pada peramban seluler (khususnya iOS Safari) saat fokus pada formulir dengan menerapkan kelas utilitas responsif `text-base sm:text-xs` pada seluruh elemen `<input>` dan `<select>`.
+- Penanganan pencarian kosong pada `ShortUrlController::index()` yang secara otomatis mengalihkan pengguna kembali ke rute indeks bersih tanpa parameter kosong.
+- Peringkasan diksi dan standardisasi *copywriting* antarmuka:
+  - Subjudul halaman daftar link dipersingkat menjadi `Daftar link dan data kunjungan`.
+  - Subjudul log aktivitas dipersingkat menjadi `Riwayat aktivitas pengguna sistem`.
+  - Teks tombol login di beranda diperbarui menjadi `Login ENIKDA`.
+  - Teks tombol portal diperbarui menjadi `Portal Sinjai`.
+  - Sasaran audiens pada beranda disesuaikan menjadi `Khusus ASN Pemerintah Kabupaten Sinjai via ENIKDA.`
+- Penghapusan duplikasi notifikasi galat (*alert banner* ganda di modal dan notifikasi mengambang global) untuk memusatkan pesan kendala tepat di bawah kolom isian terkait.
+- Pengalihan seluruh referensi aset logo sistem dan generator kode QR dari `logo-sinjai.png` ke `logo.png`.
+- Kompilasi ulang aset produksi frontend CSS dan manifes Vite melalui `npm run build`.
+
 ## [1.6.0] - 2026-10-29
 
 ### Ditambahkan

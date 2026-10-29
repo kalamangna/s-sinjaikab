@@ -179,4 +179,21 @@ class ShortUrlTest extends TestCase
         $response->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->assertHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
     }
+
+    public function test_duplicate_custom_short_code_triggers_alert_and_validation_error(): void
+    {
+        $user = User::factory()->create(['role' => 'opd']);
+
+        ShortUrl::factory()->create([
+            'user_id' => $user->id,
+            'short_code' => 'portal-sinjai',
+        ]);
+
+        $response = $this->actingAs($user)->post('/urls', [
+            'original_url' => 'https://sinjaikab.go.id/portal',
+            'short_code' => 'portal-sinjai',
+        ]);
+
+        $response->assertSessionHasErrors('short_code');
+    }
 }
