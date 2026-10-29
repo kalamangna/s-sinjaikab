@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\ShortUrlController;
@@ -26,6 +27,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/urls/{url}', [ShortUrlController::class, 'update'])->name('urls.update');
     Route::delete('/urls/{url}', [ShortUrlController::class, 'destroy'])->name('urls.destroy');
     Route::get('/urls/{url}/qr', [ShortUrlController::class, 'qrCode'])->name('urls.qr');
+
+    // Khusus Administrator
+    Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/logs', [AdminLogController::class, 'index'])->name('logs.index');
+    });
 });
 
 // Pengalihan Tautan Pendek (Wildcard di posisi terakhir)

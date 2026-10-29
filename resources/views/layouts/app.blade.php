@@ -34,14 +34,25 @@
 <body class="flex min-h-full flex-col font-sans text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
     <header class="sticky top-0 z-40 border-b border-slate-200 bg-white shadow-xs">
         <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center gap-4">
-                <a href="{{ route('urls.index') }}" class="flex items-center gap-2.5 sm:gap-3 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
-                    <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-8 sm:h-9 w-auto object-contain">
-                    <div class="flex flex-col text-left leading-tight">
+            <div class="flex items-center gap-6">
+                <a href="{{ route('urls.index') }}" class="flex items-center gap-2.5 sm:gap-3 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 shrink-0">
+                    <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-8 sm:h-9 w-auto object-contain shrink-0">
+                    <div class="flex flex-col text-left leading-tight shrink-0">
                         <span class="text-sm font-bold tracking-tight text-slate-900">Link Shortener</span>
                         <span class="text-xs font-medium text-slate-500">Pemkab Sinjai</span>
                     </div>
                 </a>
+
+                @if(auth()->check() && auth()->user()->isAdmin())
+                    <nav class="hidden md:flex items-center gap-1.5" aria-label="Navigasi Utama">
+                        <a href="{{ route('urls.index') }}" class="inline-flex h-9 items-center rounded-lg px-3.5 text-xs font-semibold transition {{ request()->routeIs('urls.*') ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                            Kelola Link
+                        </a>
+                        <a href="{{ route('admin.logs.index') }}" class="inline-flex h-9 items-center rounded-lg px-3.5 text-xs font-semibold transition {{ request()->routeIs('admin.logs.*') ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                            Log Aktivitas
+                        </a>
+                    </nav>
+                @endif
             </div>
 
             <div class="flex items-center gap-3">
@@ -58,10 +69,23 @@
                 </form>
             </div>
         </div>
+
+        @if(auth()->check() && auth()->user()->isAdmin())
+            <div class="border-t border-slate-200 bg-slate-50/80 px-4 py-2 md:hidden">
+                <nav class="grid grid-cols-2 gap-2" aria-label="Navigasi Ponsel">
+                    <a href="{{ route('urls.index') }}" class="inline-flex h-10 items-center justify-center rounded-lg px-3 text-xs font-semibold transition {{ request()->routeIs('urls.*') ? 'bg-white text-blue-700 shadow-xs ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-white hover:text-slate-900' }}">
+                        Kelola Link
+                    </a>
+                    <a href="{{ route('admin.logs.index') }}" class="inline-flex h-10 items-center justify-center rounded-lg px-3 text-xs font-semibold transition {{ request()->routeIs('admin.logs.*') ? 'bg-white text-blue-700 shadow-xs ring-1 ring-blue-600/20' : 'text-slate-600 hover:bg-white hover:text-slate-900' }}">
+                        Log Aktivitas
+                    </a>
+                </nav>
+            </div>
+        @endif
     </header>
 
     <!-- Notifikasi Mengambang (Floating Toast) -->
-    <div id="toast-container" class="fixed top-20 right-4 left-4 sm:left-auto sm:right-6 z-50 flex flex-col gap-2 sm:max-w-sm sm:w-full pointer-events-none">
+    <div id="toast-container" class="fixed {{ auth()->check() && auth()->user()->isAdmin() ? 'top-28 md:top-20' : 'top-20' }} right-4 left-4 sm:left-auto sm:right-6 z-50 flex flex-col gap-2 sm:max-w-sm sm:w-full pointer-events-none">
         @if(session('success'))
             <div id="toast-success" class="pointer-events-auto flex items-start justify-between rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-900 shadow-lg transition-opacity duration-300" role="status">
                 <div class="flex items-start gap-3">

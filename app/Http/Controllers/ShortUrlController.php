@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\ShortUrl;
 use App\Services\QrCodeService;
 use App\Services\UrlShortenerService;
@@ -90,12 +91,14 @@ class ShortUrlController extends Controller
             $shortCode = $service->generateUniqueCode();
         }
 
-        $request->user()->shortUrls()->create([
+        $shortUrl = $request->user()->shortUrls()->create([
             'title' => $request->input('title'),
             'original_url' => $request->input('original_url'),
             'short_code' => $shortCode,
             'is_active' => true,
         ]);
+
+        ActivityLog::record('create_url', "Membuat link {$shortUrl->short_code} menuju {$shortUrl->original_url}");
 
         return redirect()->route('urls.index')->with('success', 'Link berhasil dibuat.');
     }
@@ -157,6 +160,8 @@ class ShortUrlController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
+        ActivityLog::record('update_url', "Memperbarui link {$url->short_code} menuju {$url->original_url}");
+
         return redirect()->route('urls.index')->with('success', 'Perubahan berhasil disimpan.');
     }
 
@@ -171,7 +176,10 @@ class ShortUrlController extends Controller
             abort(403, 'Akses tidak diizinkan.');
         }
 
+        $code = $url->short_code;
         $url->delete();
+
+        ActivityLog::record('delete_url', "Menghapus link {$code}");
 
         return redirect()->route('urls.index')->with('success', 'Link berhasil dihapus.');
     }

@@ -42,3 +42,7 @@ Layanan pemendek link resmi Pemerintah Kabupaten Sinjai berbasis domain s.sinjai
   ```bash
   php artisan test
   ```
+- Membersihkan riwayat log aktivitas yang melebihi batas retensi 30 hari:
+  ```bash
+  php artisan logs:prune
+  ```

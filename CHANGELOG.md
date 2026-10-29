@@ -2,6 +2,21 @@
 
 Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan format [Keep a Changelog](https://keepachangelog.com/id/1.1.0/).
 
+## [1.5.0] - 2026-10-29
+
+### Ditambahkan
+- Fitur Log Aktivitas khusus Administrator (`/admin/logs`) untuk memantau riwayat aktivitas operasional pengguna meliputi login, logout, pembuatan, pembaruan, dan penghapusan link.
+- Tabel skema basis data baru `activity_logs` dengan kolom `user_id`, `action`, `description`, `ip_address`, `user_agent`, dan `created_at`.
+- Model `ActivityLog` dengan metode pencatatan riwayat otomatis, mutator lencana status aksi, dan relasi ke model `User`.
+- Perintah Artisan `php artisan logs:prune` untuk pembersihan data riwayat aktivitas yang melebihi batas simpan 30 hari, terhubung pada penjadwalan harian aplikasi.
+- Rangkaian pengujian fitur `AdminLogTest` untuk memastikan otorisasi hak akses administrator, pencatatan aktivitas, dan mekanisme pembersihan log.
+
+### Diubah
+- Penyempurnaan tata letak responsif komponen header aplikasi:
+  - Tautan menu navigasi ditampilkan sejajar pada layar desktop (`md:flex`) dan dipindahkan ke bilah kontrol tersegmentasi simetris 2 kolom (`grid-cols-2`) di ponsel dengan target sentuh `h-10`.
+  - Penambahan proteksi `shrink-0` pada logo dan teks *branding* Pemkab Sinjai guna mencegah distorsi tampilan pada layar ponsel sempit.
+  - Penyesuaian posisi vertikal notifikasi mengambang (*floating toast*) pada ponsel administrator agar tidak menutupi bilah navigasi.
+
 ## [1.4.0] - 2026-10-29
 
 ### Diubah

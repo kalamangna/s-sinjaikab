@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\User;
 use App\Services\EnikdaGatewayService;
 use Illuminate\Http\RedirectResponse;
@@ -73,6 +74,8 @@ class AuthController extends Controller
                 Auth::login($user, $remember);
                 $request->session()->regenerate();
 
+                ActivityLog::record('login', 'Pengguna berhasil masuk ke sistem.', $user);
+
                 return redirect()->intended(route('urls.index'));
             }
         }
@@ -96,6 +99,8 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
+            ActivityLog::record('login', 'Pengguna berhasil masuk ke sistem.', $user);
+
             return redirect()->intended(route('urls.index'));
         }
 
@@ -109,6 +114,11 @@ class AuthController extends Controller
      */
     public function logout(Request $request): RedirectResponse
     {
+        $user = $request->user();
+        if ($user) {
+            ActivityLog::record('logout', 'Pengguna keluar dari sistem.', $user);
+        }
+
         Auth::logout();
 
         $request->session()->invalidate();
