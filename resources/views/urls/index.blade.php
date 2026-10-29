@@ -33,7 +33,7 @@
     <!-- Filter dan Pencarian -->
     <form method="GET" action="{{ route('urls.index') }}" class="flex flex-col sm:flex-row gap-2">
         <div class="relative flex-1">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul, kode link, atau alamat tujuan" class="block h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Surat Edaran Bupati, se-bupati-100, atau drive.google.com" class="block h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
         </div>
         <div class="flex items-center gap-2">
             <button type="submit" class="inline-flex h-11 flex-1 sm:flex-none items-center justify-center rounded-lg bg-slate-900 px-5 text-xs font-semibold text-white transition hover:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-slate-400 focus:ring-offset-2">
@@ -147,7 +147,7 @@
             <div>
                 <label for="create_title" class="block text-xs font-semibold text-slate-700">Judul Link <span class="font-normal text-slate-400">Opsional</span></label>
                 <div class="mt-1">
-                    <input type="text" id="create_title" name="title" value="{{ old('title') }}" placeholder="Pengumuman Seleksi Beasiswa Sinjai 2026" class="block h-11 w-full rounded-lg border {{ $errors->has('title') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
+                    <input type="text" id="create_title" name="title" value="{{ old('title') }}" placeholder="Surat Edaran Bupati Nomor 100 Tahun 2026" class="block h-11 w-full rounded-lg border {{ $errors->has('title') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
                 </div>
                 @error('title')
                     <p class="mt-1 text-[11px] font-medium text-rose-600">{{ $message }}</p>
@@ -157,7 +157,7 @@
             <div>
                 <label for="create_original_url" class="block text-xs font-semibold text-slate-700">Alamat Tujuan</label>
                 <div class="mt-1">
-                    <input type="url" id="create_original_url" name="original_url" required value="{{ old('original_url') }}" placeholder="https://sinjaikab.go.id/berita/pengumuman-seleksi" class="block h-11 w-full rounded-lg border {{ $errors->has('original_url') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
+                    <input type="url" id="create_original_url" name="original_url" required value="{{ old('original_url') }}" placeholder="https://drive.google.com/file/d/1a2b3c4d5e6f7g8h9/view" class="block h-11 w-full rounded-lg border {{ $errors->has('original_url') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 shadow-xs focus:outline-hidden focus:ring-1">
                 </div>
                 <p class="mt-1 text-[11px] text-slate-500">Gunakan alamat web yang valid diawali https</p>
                 @error('original_url')
@@ -169,7 +169,7 @@
                 <label for="create_short_code" class="block text-xs font-semibold text-slate-700">Kode Link Kustom <span class="font-normal text-slate-400">Opsional</span></label>
                 <div class="mt-1 flex rounded-lg shadow-xs">
                     <span class="inline-flex items-center rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 px-3 text-xs text-slate-500 shrink-0">s.sinjaikab.go.id/</span>
-                    <input type="text" id="create_short_code" name="short_code" value="{{ old('short_code') }}" placeholder="beasiswa-2026" class="block h-11 w-full min-w-0 rounded-r-lg border {{ $errors->has('short_code') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 focus:outline-hidden focus:ring-1">
+                    <input type="text" id="create_short_code" name="short_code" value="{{ old('short_code') }}" placeholder="se-bupati-100-2026" class="block h-11 w-full min-w-0 rounded-r-lg border {{ $errors->has('short_code') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 focus:outline-hidden focus:ring-1">
                 </div>
                 <p class="mt-1 text-[11px] text-slate-500">Kosongkan jika ingin sistem membuat kode acak secara otomatis</p>
                 @error('short_code')
@@ -204,14 +204,14 @@
             <div>
                 <label for="edit_title" class="block text-xs font-semibold text-slate-700">Judul Link <span class="font-normal text-slate-400">Opsional</span></label>
                 <div class="mt-1">
-                    <input type="text" id="edit_title" name="title" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                    <input type="text" id="edit_title" name="title" placeholder="Surat Edaran Bupati Nomor 100 Tahun 2026" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
                 </div>
             </div>
 
             <div>
                 <label for="edit_original_url" class="block text-xs font-semibold text-slate-700">Alamat Tujuan</label>
                 <div class="mt-1">
-                    <input type="url" id="edit_original_url" name="original_url" required class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                    <input type="url" id="edit_original_url" name="original_url" required placeholder="https://drive.google.com/file/d/1a2b3c4d5e6f7g8h9/view" class="block h-11 w-full rounded-lg border border-slate-300 px-3 text-xs text-slate-900 shadow-xs focus:border-blue-600 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
                 </div>
             </div>
 
@@ -219,7 +219,7 @@
                 <label for="edit_short_code" class="block text-xs font-semibold text-slate-700">Kode Link</label>
                 <div class="mt-1 flex rounded-lg shadow-xs">
                     <span class="inline-flex items-center rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 px-3 text-xs text-slate-500 shrink-0">s.sinjaikab.go.id/</span>
-                    <input type="text" id="edit_short_code" name="short_code" required class="block h-11 w-full min-w-0 rounded-r-lg border border-slate-300 px-3 text-xs text-slate-900 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                    <input type="text" id="edit_short_code" name="short_code" required placeholder="se-bupati-100-2026" class="block h-11 w-full min-w-0 rounded-r-lg border border-slate-300 px-3 text-xs text-slate-900 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
                 </div>
             </div>
 

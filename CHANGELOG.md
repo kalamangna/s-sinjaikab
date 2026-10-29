@@ -14,6 +14,7 @@ Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan for
   - Perbaikan wadah notifikasi mengambang agar tidak melampaui batas layar pada perangkat seluler sempit.
   - Optimalisasi dialog modal dengan input kustom `min-w-0` guna mencegah luapan horizontal pada ponsel.
 - Penyesuaian informasi pembuat link pada kartu daftar untuk menampilkan nama pengguna dan OPD, serta menyembunyikan keterangan OPD khusus akun administrator.
+- Pembaruan teks *placeholder* pada formulir link dan pencarian menggunakan contoh riil berkas dokumen Google Drive dan surat edaran kedinasan.
 
 ## [1.3.0] - 2026-10-29
 
