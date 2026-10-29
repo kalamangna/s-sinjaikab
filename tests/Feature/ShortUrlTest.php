@@ -153,4 +153,30 @@ class ShortUrlTest extends TestCase
         $resUpper = $this->get('/SE-BUPATI-100');
         $resUpper->assertRedirect('https://sinjaikab.go.id/dokumen/se.pdf');
     }
+
+    public function test_private_ip_destination_url_is_rejected(): void
+    {
+        $user = User::factory()->create(['role' => 'opd']);
+
+        $response = $this->actingAs($user)->post('/urls', [
+            'title' => 'Router Lokal',
+            'original_url' => 'http://192.168.1.1',
+            'short_code' => 'router-lokal',
+        ]);
+
+        $response->assertSessionHasErrors('original_url');
+        $this->assertDatabaseMissing('short_urls', [
+            'short_code' => 'router-lokal',
+        ]);
+    }
+
+    public function test_security_headers_are_present_in_responses(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertHeader('X-Frame-Options', 'SAMEORIGIN');
+        $response->assertHeader('X-Content-Type-Options', 'nosniff');
+        $response->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+        $response->assertHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    }
 }

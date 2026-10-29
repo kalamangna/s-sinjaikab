@@ -14,7 +14,8 @@ class AdminLogController extends Controller
     {
         $logs = ActivityLog::with('user')
             ->orderByDesc('id')
-            ->paginate(20);
+            ->paginate(20)
+            ->withQueryString();
 
         return view('admin.logs.index', [
             'logs' => $logs,

@@ -2,6 +2,19 @@
 
 Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan format [Keep a Changelog](https://keepachangelog.com/id/1.1.0/).
 
+## [1.6.0] - 2026-10-29
+
+### Ditambahkan
+- Middleware global `SecurityHeaders` untuk menyertakan header proteksi HTTP modern: `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, dan `Strict-Transport-Security`.
+- Validasi pemfilteran alamat IP privat dan intranet (`192.168.0.0/16`, `10.0.0.0/8`, `172.16.0.0/12`, `169.254.169.254`, dan `0.0.0.0`) pada URL tujuan guna mencegah akses ke perangkat keras internal.
+- Pembatasan laju kueri (*rate limiting*) `throttle:120,1` pada rute pengalihan publik dan `throttle:30,1` pada rute pembuatan link.
+- Templat penomoran halaman kustom berbahasa Indonesia (`resources/views/vendor/pagination/tailwind.blade.php`) dengan tata letak ramah seluler berukuran sentuh `h-10` dan indikator ringkas halaman.
+- Pengujian otomatis untuk verifikasi penolakan URL tujuan IP privat dan ketersediaan header keamanan HTTP pada `ShortUrlTest`.
+
+### Diubah
+- Penambahan retensi parameter kueri (`withQueryString`) pada penomoran halaman riwayat log administrator dan tautan pendek.
+- Penanganan potensi peringatan *deprecation* pada fungsi manipulasi teks di model `ActivityLog`.
+
 ## [1.5.0] - 2026-10-29
 
 ### Ditambahkan

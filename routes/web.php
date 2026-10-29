@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
 
     // Manajemen Tautan Pendek
     Route::get('/urls', [ShortUrlController::class, 'index'])->name('urls.index');
-    Route::post('/urls', [ShortUrlController::class, 'store'])->name('urls.store');
+    Route::post('/urls', [ShortUrlController::class, 'store'])->name('urls.store')->middleware('throttle:30,1');
     Route::put('/urls/{url}', [ShortUrlController::class, 'update'])->name('urls.update');
     Route::delete('/urls/{url}', [ShortUrlController::class, 'destroy'])->name('urls.destroy');
     Route::get('/urls/{url}/qr', [ShortUrlController::class, 'qrCode'])->name('urls.qr');
@@ -37,4 +37,5 @@ Route::middleware('auth')->group(function () {
 // Pengalihan Tautan Pendek (Wildcard di posisi terakhir)
 Route::get('/{code}', [RedirectController::class, 'redirect'])
     ->where('code', '[a-zA-Z0-9_\-]+')
+    ->middleware('throttle:120,1')
     ->name('short.redirect');

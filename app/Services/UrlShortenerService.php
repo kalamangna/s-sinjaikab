@@ -54,11 +54,14 @@ class UrlShortenerService
 
         $host = strtolower($parsed['host'] ?? '');
 
-        // Prevent self-redirection
+        // Prevent self-redirection & loopback
         $blockedHosts = [
             's.sinjaikab.go.id',
             'localhost',
             '127.0.0.1',
+            '0.0.0.0',
+            '::1',
+            '[::1]',
         ];
 
         if ($requestHost) {
@@ -67,6 +70,14 @@ class UrlShortenerService
 
         if (in_array($host, $blockedHosts, true)) {
             throw new InvalidArgumentException('URL tujuan tidak diizinkan.');
+        }
+
+        // Prevent internal/private intranet IP ranges (RFC 1918, link-local, cloud metadata)
+        $cleanHost = trim($host, '[]');
+        if (filter_var($cleanHost, FILTER_VALIDATE_IP)) {
+            if (! filter_var($cleanHost, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                throw new InvalidArgumentException('URL jaringan lokal atau privat tidak diizinkan.');
+            }
         }
 
         // Prevent dangerous files

@@ -87,7 +87,7 @@ class ActivityLog extends Model
             'create_url' => 'Tambah Link',
             'update_url' => 'Ubah Link',
             'delete_url' => 'Hapus Link',
-            default => ucfirst(str_replace('_', ' ', $this->action)),
+            default => ucfirst(str_replace('_', ' ', (string) $this->action)),
         };
     }
 
