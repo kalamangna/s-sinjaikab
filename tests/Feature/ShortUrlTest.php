@@ -128,4 +128,29 @@ class ShortUrlTest extends TestCase
         $responsePng->assertStatus(200);
         $responsePng->assertHeader('Content-Type', 'image/png');
     }
+
+    public function test_short_code_casing_is_preserved_and_resolved_case_insensitively(): void
+    {
+        $user = User::factory()->create(['role' => 'opd']);
+
+        $response = $this->actingAs($user)->post('/urls', [
+            'title' => 'Surat Edaran',
+            'original_url' => 'https://sinjaikab.go.id/dokumen/se.pdf',
+            'short_code' => 'SE-Bupati-100',
+        ]);
+
+        $response->assertRedirect('/urls');
+        $this->assertDatabaseHas('short_urls', [
+            'short_code' => 'SE-Bupati-100',
+        ]);
+
+        $resExact = $this->get('/SE-Bupati-100');
+        $resExact->assertRedirect('https://sinjaikab.go.id/dokumen/se.pdf');
+
+        $resLower = $this->get('/se-bupati-100');
+        $resLower->assertRedirect('https://sinjaikab.go.id/dokumen/se.pdf');
+
+        $resUpper = $this->get('/SE-BUPATI-100');
+        $resUpper->assertRedirect('https://sinjaikab.go.id/dokumen/se.pdf');
+    }
 }

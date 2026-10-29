@@ -21,9 +21,17 @@ class RedirectController extends Controller
      */
     public function redirect(string $code): Response
     {
+        $code = trim($code);
+
         $shortUrl = ShortUrl::where('short_code', $code)
             ->where('is_active', true)
             ->first();
+
+        if (! $shortUrl) {
+            $shortUrl = ShortUrl::whereRaw('LOWER(short_code) = ?', [strtolower($code)])
+                ->where('is_active', true)
+                ->first();
+        }
 
         if (! $shortUrl) {
             return response()->view('errors.404', [

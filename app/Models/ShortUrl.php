@@ -57,6 +57,14 @@ class ShortUrl extends Model
     }
 
     /**
+     * Set short_code preserving the user's input casing while trimming whitespace.
+     */
+    public function setShortCodeAttribute(?string $value): void
+    {
+        $this->attributes['short_code'] = $value !== null ? trim($value) : null;
+    }
+
+    /**
      * Get the full short URL string.
      */
     public function getFullUrlAttribute(): string

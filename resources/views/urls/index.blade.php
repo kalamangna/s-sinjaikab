@@ -169,7 +169,7 @@
                 <label for="create_short_code" class="block text-xs font-semibold text-slate-700">Kode Link Kustom <span class="font-normal text-slate-400">Opsional</span></label>
                 <div class="mt-1 flex rounded-lg shadow-xs">
                     <span class="inline-flex items-center rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 px-3 text-xs text-slate-500 shrink-0">s.sinjaikab.go.id/</span>
-                    <input type="text" id="create_short_code" name="short_code" value="{{ old('short_code') }}" placeholder="se-bupati-100-2026" class="block h-11 w-full min-w-0 rounded-r-lg border {{ $errors->has('short_code') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 focus:outline-hidden focus:ring-1">
+                    <input type="text" id="create_short_code" name="short_code" value="{{ old('short_code') }}" oninput="this.value = this.value.replace(/[^a-zA-Z0-9_-]/g, '')" placeholder="se-bupati-100-2026" class="block h-11 w-full min-w-0 rounded-r-lg border {{ $errors->has('short_code') ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-blue-600 focus:ring-blue-600' }} px-3 text-xs text-slate-900 focus:outline-hidden focus:ring-1">
                 </div>
                 <p class="mt-1 text-[11px] text-slate-500">Kosongkan jika ingin sistem membuat kode acak secara otomatis</p>
                 @error('short_code')
@@ -219,7 +219,7 @@
                 <label for="edit_short_code" class="block text-xs font-semibold text-slate-700">Kode Link</label>
                 <div class="mt-1 flex rounded-lg shadow-xs">
                     <span class="inline-flex items-center rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 px-3 text-xs text-slate-500 shrink-0">s.sinjaikab.go.id/</span>
-                    <input type="text" id="edit_short_code" name="short_code" required placeholder="se-bupati-100-2026" class="block h-11 w-full min-w-0 rounded-r-lg border border-slate-300 px-3 text-xs text-slate-900 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
+                    <input type="text" id="edit_short_code" name="short_code" required oninput="this.value = this.value.replace(/[^a-zA-Z0-9_-]/g, '')" placeholder="se-bupati-100-2026" class="block h-11 w-full min-w-0 rounded-r-lg border border-slate-300 px-3 text-xs text-slate-900 focus:outline-hidden focus:ring-1 focus:ring-blue-600">
                 </div>
             </div>
 
