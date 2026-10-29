@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function showLogin(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            return redirect()->route('urls.index');
         }
 
         return view('auth.login');
@@ -73,7 +73,7 @@ class AuthController extends Controller
                 Auth::login($user, $remember);
                 $request->session()->regenerate();
 
-                return redirect()->intended(route('dashboard'));
+                return redirect()->intended(route('urls.index'));
             }
         }
 
@@ -96,7 +96,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended(route('urls.index'));
         }
 
         return back()->withErrors([

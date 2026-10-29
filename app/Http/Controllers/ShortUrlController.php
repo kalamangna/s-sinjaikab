@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -26,6 +27,9 @@ class ShortUrlController extends Controller
             $query->where('user_id', $user->id);
         }
 
+        $totalUrls = (clone $query)->count();
+        $totalClicks = (int) (clone $query)->sum('clicks_count');
+
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -36,7 +40,7 @@ class ShortUrlController extends Controller
 
         $shortUrls = $query->latest()->paginate(15)->withQueryString();
 
-        return view('urls.index', compact('shortUrls'));
+        return view('urls.index', compact('shortUrls', 'totalUrls', 'totalClicks'));
     }
 
     /**
@@ -45,17 +49,16 @@ class ShortUrlController extends Controller
     public function store(Request $request, UrlShortenerService $service): RedirectResponse
     {
         $request->validate([
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['nullable', 'string', 'max:255'],
             'original_url' => ['required', 'string', 'url', 'max:2048'],
             'short_code' => ['nullable', 'string', 'min:3', 'max:64', 'alpha_dash:ascii', 'unique:short_urls,short_code'],
         ], [
-            'title.required' => 'Judul tautan wajib diisi.',
-            'original_url.required' => 'URL tujuan wajib diisi.',
-            'original_url.url' => 'Format URL tujuan tidak valid.',
-            'short_code.min' => 'Kustom tautan minimal 3 karakter.',
-            'short_code.max' => 'Kustom tautan maksimal 64 karakter.',
-            'short_code.alpha_dash' => 'Kustom tautan hanya boleh memuat huruf, angka, tanda strip, dan garis bawah.',
-            'short_code.unique' => 'Kustom tautan sudah digunakan oleh tautan lain.',
+            'original_url.required' => 'Alamat tujuan wajib diisi.',
+            'original_url.url' => 'Alamat tujuan tidak valid. Pastikan diawali http atau https.',
+            'short_code.min' => 'Kode tautan minimal 3 karakter.',
+            'short_code.max' => 'Kode tautan maksimal 64 karakter.',
+            'short_code.alpha_dash' => 'Kode tautan hanya boleh memuat huruf, angka, tanda strip, dan garis bawah.',
+            'short_code.unique' => 'Kode tautan sudah digunakan. Silakan gunakan kombinasi lain.',
         ]);
 
         try {
@@ -69,7 +72,7 @@ class ShortUrlController extends Controller
         if ($shortCode) {
             $shortCode = Str::slug($shortCode);
             if ($service->isSlugReserved($shortCode)) {
-                return back()->withErrors(['short_code' => 'Kustom tautan tersebut adalah kata kunci terproteksi sistem.'])->withInput();
+                return back()->withErrors(['short_code' => 'Kode tautan tersebut dicadangkan untuk kebutuhan sistem.'])->withInput();
             }
         } else {
             $shortCode = $service->generateUniqueCode();
@@ -97,28 +100,40 @@ class ShortUrlController extends Controller
         }
 
         $request->validate([
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['nullable', 'string', 'max:255'],
             'original_url' => ['required', 'string', 'url', 'max:2048'],
+            'short_code' => ['required', 'string', 'min:3', 'max:64', 'alpha_dash:ascii', Rule::unique('short_urls', 'short_code')->ignore($url->id)],
             'is_active' => ['required', 'boolean'],
         ], [
-            'title.required' => 'Judul tautan wajib diisi.',
-            'original_url.required' => 'URL tujuan wajib diisi.',
-            'original_url.url' => 'Format URL tujuan tidak valid.',
+            'original_url.required' => 'Alamat tujuan wajib diisi.',
+            'original_url.url' => 'Alamat tujuan tidak valid. Pastikan diawali http atau https.',
+            'short_code.required' => 'Kode tautan wajib diisi.',
+            'short_code.min' => 'Kode tautan minimal 3 karakter.',
+            'short_code.max' => 'Kode tautan maksimal 64 karakter.',
+            'short_code.alpha_dash' => 'Kode tautan hanya boleh memuat huruf, angka, tanda strip, dan garis bawah.',
+            'short_code.unique' => 'Kode tautan sudah digunakan. Silakan gunakan kombinasi lain.',
         ]);
 
         try {
             $service->validateDestinationUrl($request->input('original_url'), $request->getHost());
         } catch (InvalidArgumentException $e) {
-            return back()->withErrors(['original_url' => $e->getMessage()]);
+            return back()->withErrors(['original_url' => $e->getMessage()])->withInput();
+        }
+
+        $shortCode = Str::slug($request->input('short_code'));
+
+        if ($shortCode !== $url->short_code && $service->isSlugReserved($shortCode)) {
+            return back()->withErrors(['short_code' => 'Kode tautan tersebut dicadangkan untuk kebutuhan sistem.'])->withInput();
         }
 
         $url->update([
             'title' => $request->input('title'),
             'original_url' => $request->input('original_url'),
+            'short_code' => $shortCode,
             'is_active' => $request->boolean('is_active'),
         ]);
 
-        return redirect()->route('urls.index')->with('success', 'Tautan pendek berhasil diperbarui.');
+        return redirect()->route('urls.index')->with('success', 'Perubahan tautan berhasil disimpan.');
     }
 
     /**

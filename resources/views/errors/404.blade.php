@@ -4,13 +4,40 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tautan Tidak Ditemukan - s.sinjaikab.go.id</title>
+    <meta name="description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta name="author" content="Diskominfo-SP Sinjai">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:site_name" content="Pemerintah Kabupaten Sinjai">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="Tautan Tidak Ditemukan - s.sinjaikab.go.id">
+    <meta property="og:description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta property="og:image" content="{{ asset('images/meta.png') }}">
+    <meta property="og:image:secure_url" content="{{ asset('images/meta.png') }}">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1640">
+    <meta property="og:image:height" content="924">
+    <meta property="og:image:alt" content="Portal Resmi Pemerintah Kabupaten Sinjai">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="Tautan Tidak Ditemukan - s.sinjaikab.go.id">
+    <meta name="twitter:description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta name="twitter:image" content="{{ asset('images/meta.png') }}">
+    <meta name="twitter:image:alt" content="Portal Resmi Pemerintah Kabupaten Sinjai">
+
     <link rel="icon" type="image/png" href="{{ asset('images/logo-sinjai.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans antialiased text-slate-800 text-center">
     <div class="sm:mx-auto sm:w-full sm:max-w-md px-4">
-        <a href="{{ route('home') }}" class="inline-flex items-center gap-3 focus:outline-hidden">
-            <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-11 w-auto object-contain mx-auto">
+        <a href="{{ route('home') }}" class="inline-flex items-center gap-3 rounded-lg p-1 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+            <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-8 sm:h-9 w-auto object-contain">
+            <div class="flex flex-col text-left">
+                <span class="text-sm font-bold tracking-tight text-slate-900 sm:text-base">s.sinjaikab.go.id</span>
+                <span class="text-[11px] text-slate-500">Pemerintah Kabupaten Sinjai</span>
+            </div>
         </a>
 
         <div class="mt-6 rounded-xl border border-slate-200 bg-white p-6 shadow-xs sm:p-8">
@@ -19,12 +46,12 @@
                 Tautan Pendek Tidak Ditemukan
             </h1>
             <p class="mt-2 text-xs text-slate-600 leading-relaxed">
-                {{ $message ?? 'Alamat tautan pendek yang Anda tuju tidak terdaftar atau sudah dinonaktifkan.' }}
+                {{ $message ?? 'Alamat tautan pendek yang Anda tuju tidak terdaftar atau sudah dinonaktifkan oleh pemilik tautan.' }}
             </p>
 
             <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
                 <a href="{{ route('home') }}" class="inline-flex h-10 w-full sm:w-auto items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden">
-                    Kembali ke Beranda
+                    Buka Beranda
                 </a>
                 <a href="https://sinjaikab.go.id" rel="noopener noreferrer" target="_blank" class="inline-flex h-10 w-full sm:w-auto items-center justify-center rounded-lg border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-hidden">
                     Kunjungi Portal Sinjai
@@ -33,7 +60,7 @@
         </div>
 
         <p class="mt-6 text-xs text-slate-400">
-            Layanan Resmi s.sinjaikab.go.id • Diskominfo Sinjai
+            &copy; {{ date('Y') }} Diskominfo-SP Sinjai
         </p>
     </div>
 </body>

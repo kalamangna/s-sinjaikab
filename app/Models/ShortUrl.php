@@ -25,6 +25,17 @@ class ShortUrl extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var list<string>
+     */
+    protected $appends = [
+        'full_url',
+        'display_short_url',
+        'display_original_url',
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -51,5 +62,21 @@ class ShortUrl extends Model
     public function getFullUrlAttribute(): string
     {
         return url('/'.$this->short_code);
+    }
+
+    /**
+     * Get the display short URL without protocol prefix.
+     */
+    public function getDisplayShortUrlAttribute(): string
+    {
+        return preg_replace('#^https?://#', '', $this->full_url);
+    }
+
+    /**
+     * Get the display destination URL without protocol prefix.
+     */
+    public function getDisplayOriginalUrlAttribute(): string
+    {
+        return preg_replace('#^https?://#', '', $this->original_url);
     }
 }

@@ -3,14 +3,37 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - s.sinjaikab.go.id</title>
+    <title>Login Akun ENIKDA - s.sinjaikab.go.id</title>
+    <meta name="description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta name="author" content="Diskominfo-SP Sinjai">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:site_name" content="Pemerintah Kabupaten Sinjai">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="Login Akun ENIKDA - s.sinjaikab.go.id">
+    <meta property="og:description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta property="og:image" content="{{ asset('images/meta.png') }}">
+    <meta property="og:image:secure_url" content="{{ asset('images/meta.png') }}">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1640">
+    <meta property="og:image:height" content="924">
+    <meta property="og:image:alt" content="Portal Resmi Pemerintah Kabupaten Sinjai">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="Login Akun ENIKDA - s.sinjaikab.go.id">
+    <meta name="twitter:description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta name="twitter:image" content="{{ asset('images/meta.png') }}">
+    <meta name="twitter:image:alt" content="Portal Resmi Pemerintah Kabupaten Sinjai">
+
     <link rel="icon" type="image/png" href="{{ asset('images/logo-sinjai.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="flex min-h-full flex-col justify-center py-12 px-4 sm:px-6 font-sans antialiased text-slate-800">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         <div class="text-center">
-            <a href="{{ route('home') }}" class="inline-flex focus:outline-hidden focus:ring-2 focus:ring-blue-600 rounded-lg">
+            <a href="{{ route('home') }}" class="inline-flex rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                 <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-11 w-auto object-contain">
             </a>
             <h1 class="mt-4 text-xl font-bold tracking-tight text-slate-900">
@@ -60,7 +83,7 @@
                 </div>
 
                 <div class="pt-1">
-                    <button type="submit" data-loading-text="Memproses..." class="flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                    <button type="submit" data-loading-text="Memverifikasi..." class="flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                         Login
                     </button>
                 </div>

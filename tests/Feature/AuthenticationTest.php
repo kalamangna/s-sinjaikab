@@ -35,7 +35,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect('/urls');
         $this->assertTrue(auth()->user()->isAdmin());
     }
 
@@ -53,7 +53,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect('/urls');
     }
 
     public function test_users_can_authenticate_via_enikda_gateway(): void
@@ -78,7 +78,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect('/urls');
 
         $this->assertDatabaseHas('users', [
             'nip' => $nip,

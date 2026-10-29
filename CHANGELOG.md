@@ -2,6 +2,22 @@
 
 Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan format [Keep a Changelog](https://keepachangelog.com/id/1.1.0/).
 
+## [1.3.0] - 2026-10-29
+
+### Ditambahkan
+- Dukungan pengubahan kode tautan (kustom slug) pada formulir modal edit tautan.
+- Modal pratinjau kode QR dinamis disertai tombol unduh berkas SVG langsung pada daftar tautan.
+- Banner metadata media resmi `images/meta.png` untuk pratinjau OpenGraph dan Twitter Card pada seluruh halaman.
+- Aksesor `display_short_url` dan `display_original_url` pada model `ShortUrl` untuk menyederhanakan tampilan alamat URL tanpa awalan protokol `https://`.
+- Konfigurasi pelokalan bahasa Indonesia secara menyeluruh pada aplikasi dan pustaka waktu Carbon.
+
+### Diubah
+- Kolom judul tautan (`title`) pada tabel `short_urls` dijadikan opsional melalui migrasi skema basis data baru.
+- Penyatuan halaman operasional pengguna terautentikasi ke rute kelola tautan (`/urls`) serta penghapusan rute dan tampilan dasbor redundan.
+- Pemadatan tata letak halaman utama (*landing page*) menjadi satu layar penuh tanpa kebutuhan gulir (*scroll*) pada layar standar.
+- Standardisasi identitas *branding* di seluruh antarmuka: penggunaan entitas `Diskominfo-SP Sinjai` pada footer dan meta author, serta lockup resmi logo Kabupaten Sinjai.
+- Penataan halaman login akun ENIKDA menjadi lebih bersih dengan fokus logo mandiri terpusat.
+
 ## [1.2.0] - 2026-10-28
 
 ### Ditambahkan

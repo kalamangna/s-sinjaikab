@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Pemendek Tautan') - s.sinjaikab.go.id</title>
+    <meta name="description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta name="author" content="Diskominfo-SP Sinjai">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:site_name" content="Pemerintah Kabupaten Sinjai">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'Pemendek Tautan') - s.sinjaikab.go.id">
+    <meta property="og:description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta property="og:image" content="{{ asset('images/meta.png') }}">
+    <meta property="og:image:secure_url" content="{{ asset('images/meta.png') }}">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1640">
+    <meta property="og:image:height" content="924">
+    <meta property="og:image:alt" content="Portal Resmi Pemerintah Kabupaten Sinjai">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="@yield('title', 'Pemendek Tautan') - s.sinjaikab.go.id">
+    <meta name="twitter:description" content="Layanan pemendekan tautan dan pembuatan kode QR untuk dokumen kedinasan Pemerintah Kabupaten Sinjai berbasis domain s.sinjaikab.go.id.">
+    <meta name="twitter:image" content="{{ asset('images/meta.png') }}">
+    <meta name="twitter:image:alt" content="Portal Resmi Pemerintah Kabupaten Sinjai">
+
     <link rel="icon" type="image/png" href="{{ asset('images/logo-sinjai.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -12,22 +35,13 @@
     <header class="sticky top-0 z-40 border-b border-slate-200 bg-white shadow-xs">
         <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <div class="flex items-center gap-4">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
-                    <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-9 w-auto object-contain">
-                    <div class="flex flex-col">
+                <a href="{{ route('urls.index') }}" class="flex items-center gap-3 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
+                    <img src="{{ asset('images/logo-sinjai.png') }}" alt="Logo Kabupaten Sinjai" class="h-8 sm:h-9 w-auto object-contain">
+                    <div class="flex flex-col text-left">
                         <span class="text-sm font-bold tracking-tight text-slate-900 sm:text-base">s.sinjaikab.go.id</span>
-                        <span class="text-xs text-slate-500">Pemendek Tautan</span>
+                        <span class="text-[11px] text-slate-500">Pemerintah Kabupaten Sinjai</span>
                     </div>
                 </a>
-
-                <nav class="hidden md:ml-8 md:flex md:items-center md:gap-1">
-                    <a href="{{ route('dashboard') }}" class="rounded-md px-3 py-2 text-sm font-medium transition focus:outline-hidden focus:ring-2 focus:ring-blue-600 {{ request()->routeIs('dashboard') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
-                        Dashboard
-                    </a>
-                    <a href="{{ route('urls.index') }}" class="rounded-md px-3 py-2 text-sm font-medium transition focus:outline-hidden focus:ring-2 focus:ring-blue-600 {{ request()->routeIs('urls.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
-                        Kelola Tautan
-                    </a>
-                </nav>
             </div>
 
             <div class="flex items-center gap-3">
@@ -44,15 +58,6 @@
                 </form>
             </div>
         </div>
-
-        <nav class="flex border-t border-slate-100 px-4 py-2 md:hidden overflow-x-auto gap-2 bg-slate-50">
-            <a href="{{ route('dashboard') }}" class="inline-flex h-10 items-center whitespace-nowrap rounded-md px-3 text-xs font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-600 {{ request()->routeIs('dashboard') ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 border border-slate-200' }}">
-                Dashboard
-            </a>
-            <a href="{{ route('urls.index') }}" class="inline-flex h-10 items-center whitespace-nowrap rounded-md px-3 text-xs font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-600 {{ request()->routeIs('urls.*') ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 border border-slate-200' }}">
-                Kelola Tautan
-            </a>
-        </nav>
     </header>
 
     <!-- Notifikasi Mengambang (Floating Toast) -->
@@ -121,7 +126,7 @@
 
     <footer class="mt-auto border-t border-slate-200 bg-white py-6">
         <div class="mx-auto max-w-7xl px-4 text-center text-xs text-slate-500 sm:px-6 lg:px-8">
-            <p>Diskominfo Sinjai • Layanan Tautan Resmi s.sinjaikab.go.id</p>
+            <p>&copy; {{ date('Y') }} Diskominfo-SP Sinjai</p>
         </div>
     </footer>
 
@@ -138,7 +143,7 @@
         function copyShortLink(text, buttonElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = buttonElement.textContent;
-                buttonElement.textContent = 'Tersalin!';
+                buttonElement.textContent = 'Tautan Tersalin';
                 buttonElement.classList.remove('text-slate-700', 'bg-white');
                 buttonElement.classList.add('text-emerald-700', 'bg-emerald-50', 'border-emerald-300');
 
@@ -183,7 +188,7 @@
 
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
-                    document.querySelectorAll('#modal-create-url, #modal-edit-url').forEach(modal => {
+                    document.querySelectorAll('#modal-create-url, #modal-edit-url, #modal-qr-preview').forEach(modal => {
                         modal.classList.add('hidden');
                     });
                 }
