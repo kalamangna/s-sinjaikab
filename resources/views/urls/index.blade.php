@@ -247,7 +247,7 @@
 
 <!-- Modal Pratinjau Kode QR -->
 <div id="modal-qr-preview" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-900/60 p-4 sm:p-6 flex items-center justify-center">
-    <div class="w-full max-w-sm rounded-xl border border-slate-200 bg-white p-6 shadow-xl text-center">
+    <div class="w-full max-w-sm rounded-xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xl text-center">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 class="text-sm font-bold text-slate-900">Pratinjau Kode QR</h3>
             <button type="button" onclick="closeQrModal()" aria-label="Tutup dialog" class="text-slate-400 hover:text-slate-600 text-lg leading-none p-1 focus:outline-hidden focus:ring-2 focus:ring-slate-400 rounded">&times;</button>
@@ -255,11 +255,21 @@
 
         <div class="mt-4 flex flex-col items-center">
             <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
-                <img id="qr-image" src="" alt="Kode QR Link" class="h-56 w-56 object-contain">
+                <img id="qr-image" src="" alt="Kode QR Link" class="h-48 w-48 sm:h-56 sm:w-56 object-contain mx-auto">
             </div>
 
             <p id="qr-short-url" class="mt-3 font-mono text-xs font-bold text-blue-600 truncate max-w-full"></p>
             <p id="qr-title" class="mt-1 text-xs text-slate-500 truncate max-w-full"></p>
+
+            <!-- Pilihan Format Unduh -->
+            <div class="mt-3.5 inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 p-1">
+                <button type="button" id="btn-format-png" onclick="setQrFormat('png')" class="rounded-md px-3 py-1.5 text-xs font-semibold bg-white text-slate-900 shadow-xs transition">
+                    Format PNG
+                </button>
+                <button type="button" id="btn-format-svg" onclick="setQrFormat('svg')" class="rounded-md px-3 py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 transition">
+                    Format SVG
+                </button>
+            </div>
         </div>
 
         <div class="mt-6 flex flex-col-reverse sm:flex-row items-center sm:justify-end gap-2 sm:gap-3 border-t border-slate-100 pt-3">
@@ -276,11 +286,40 @@
 
 @push('scripts')
 <script>
+    let currentQrUrlId = null;
+    let currentQrFormat = 'png';
+
+    function updateQrDownloadHref() {
+        if (!currentQrUrlId) return;
+        const downloadBtn = document.getElementById('qr-download-btn');
+        downloadBtn.href = `/urls/${currentQrUrlId}/qr?format=${currentQrFormat}&download=1`;
+    }
+
+    function setQrFormat(format) {
+        currentQrFormat = format;
+        const btnPng = document.getElementById('btn-format-png');
+        const btnSvg = document.getElementById('btn-format-svg');
+
+        if (format === 'png') {
+            btnPng.className = 'rounded-md px-3 py-1.5 text-xs font-semibold bg-white text-slate-900 shadow-xs transition';
+            btnSvg.className = 'rounded-md px-3 py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 transition';
+        } else {
+            btnSvg.className = 'rounded-md px-3 py-1.5 text-xs font-semibold bg-white text-slate-900 shadow-xs transition';
+            btnPng.className = 'rounded-md px-3 py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 transition';
+        }
+
+        updateQrDownloadHref();
+    }
+
     function openQrModal(url) {
-        document.getElementById('qr-image').src = `/urls/${url.id}/qr`;
+        currentQrUrlId = url.id;
+        setQrFormat('png');
+
+        document.getElementById('qr-image').src = `/urls/${url.id}/qr?format=svg`;
         document.getElementById('qr-short-url').textContent = url.display_short_url || url.full_url.replace(/^https?:\/\//, '');
         document.getElementById('qr-title').textContent = url.title || url.display_original_url || url.original_url.replace(/^https?:\/\//, '');
-        document.getElementById('qr-download-btn').href = `/urls/${url.id}/qr?download=1`;
+
+        updateQrDownloadHref();
         document.getElementById('modal-qr-preview').classList.remove('hidden');
     }
 

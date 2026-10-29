@@ -123,5 +123,9 @@ class ShortUrlTest extends TestCase
         $response = $this->actingAs($user)->get("/urls/{$shortUrl->id}/qr");
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'image/svg+xml');
+
+        $responsePng = $this->actingAs($user)->get("/urls/{$shortUrl->id}/qr?format=png");
+        $responsePng->assertStatus(200);
+        $responsePng->assertHeader('Content-Type', 'image/png');
     }
 }

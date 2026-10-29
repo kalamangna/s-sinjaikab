@@ -15,6 +15,7 @@ Semua perubahan penting pada proyek ini dicatat dalam berkas ini berdasarkan for
   - Optimalisasi dialog modal dengan input kustom `min-w-0` guna mencegah luapan horizontal pada ponsel.
 - Penyesuaian informasi pembuat link pada kartu daftar untuk menampilkan nama pengguna dan OPD, serta menyembunyikan keterangan OPD khusus akun administrator.
 - Pembaruan teks *placeholder* pada formulir link dan pencarian menggunakan contoh riil berkas dokumen Google Drive dan surat edaran kedinasan.
+- Standarisasi kode QR kedinasan dengan menyisipkan logo resmi Kabupaten Sinjai di bagian tengah, dukungan unduh format ganda PNG (1000×1000 px) dan SVG, serta perbaikan rasio aspek logo agar tidak mengalami distorsi bentuk.
 
 ## [1.3.0] - 2026-10-29
 

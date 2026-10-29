@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ShortUrl;
+use App\Services\QrCodeService;
 use App\Services\UrlShortenerService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -155,14 +156,28 @@ class ShortUrlController extends Controller
     /**
      * Generate or download QR Code for the short url.
      */
-    public function qrCode(ShortUrl $url, Request $request): Response
+    public function qrCode(ShortUrl $url, Request $request, QrCodeService $qrService): Response
     {
         $targetUrl = $url->full_url;
-        $svg = QrCode::size(300)->errorCorrection('H')->generate($targetUrl);
-
+        $format = strtolower($request->query('format', 'svg'));
         $download = $request->boolean('download');
-        $filename = "qr-sinjaikab-{$url->short_code}.svg";
 
+        if ($format === 'png') {
+            $png = $qrService->generatePng($targetUrl, 1000);
+            $filename = "qr-sinjaikab-{$url->short_code}.png";
+            $headers = [
+                'Content-Type' => 'image/png',
+            ];
+
+            if ($download) {
+                $headers['Content-Disposition'] = "attachment; filename=\"{$filename}\"";
+            }
+
+            return response($png, 200, $headers);
+        }
+
+        $svg = $qrService->generateSvg($targetUrl, 400);
+        $filename = "qr-sinjaikab-{$url->short_code}.svg";
         $headers = [
             'Content-Type' => 'image/svg+xml',
         ];
